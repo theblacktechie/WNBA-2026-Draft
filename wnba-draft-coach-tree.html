@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme:light;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>2026 WNBA Live Draft Tracker — Who Develops Pros</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  color-scheme: light;
+  --orange: #FF6B35;
+  --ink:    #141414;
+  --mid:    #888;
+  --rule:   #EDEAE6;
+  --bg:     #FFFFFF;
+}
+html {
+  color-scheme: light;
+  background: #FAF9F7;
+  height: auto;
+}
+
+html, body {
+  color: var(--ink) !important;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg) !important;
+  height: auto;
+  display: block;
+}
+
+.live-pill {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  background: #FF2233;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 3px 7px 3px 5px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+.live-pill.active { display: inline-flex; }
+
+.live-pill::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  flex-shrink: 0;
+  animation: livepulse 1.1s ease-in-out infinite;
+}
+
+@keyframes livepulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+
+.header {
+  padding: 28px 24px 0;
+  border-top: 2.5px solid var(--orange);
+  text-align: center;
+}
+.eyebrow {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 10px;
+}
+.title {
+  font-size: clamp(28px, 7vw, 52px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 0.93;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.deck {
+  font-size: 12px;
+  color: var(--mid);
+  line-height: 1.55;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+/* ── CONTROLS ── */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 24px 0;
+  flex-wrap: wrap;
+}
+.school-select-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.school-select {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 7px 28px 7px 12px;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  color: var(--ink);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  min-width: 150px;
+}
+.school-select:focus { border-color: #bbb; }
+.select-arrow {
+  position: absolute;
+  right: 10px;
+  pointer-events: none;
+  font-size: 8px;
+  color: var(--mid);
+}
+.edit-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  color: var(--mid);
+  cursor: pointer;
+  transition: all 0.12s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.edit-btn:hover { border-color: #bbb; color: var(--ink); }
+.edit-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+.edit-badge {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--orange);
+  animation: pulse 1.4s ease-in-out infinite;
+  display: none;
+}
+.edit-btn.active .edit-badge { display: block; }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+.edit-hint {
+  width: 100%;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--orange);
+  padding-top: 6px;
+}
+
+/* Site-level live dot — always in header during draft window */
+.site-live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--orange);
+  margin-left: 6px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.site-live-dot.active {
+  opacity: 1;
+  animation: sitepulse 1.4s ease-in-out infinite;
+}
+@keyframes sitepulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.35; transform: scale(0.65); }
+}
+
+/* ── TABS ── */
+.tabs {
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--rule);
+  padding: 0 24px;
+  margin-top: 14px;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex-shrink: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 12px 18px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  background: var(--bg);
+  color: #bbb;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.12s;
+}
+.tab:hover  { color: var(--ink); }
+.tab.active { color: var(--orange); border-bottom-color: var(--orange); }
+
+/* ── PAGE + COURT ── */
+.page {
+  position: relative;
+  overflow: hidden;
+}
+/* Court: fixed proportional size, centered behind all three zones */
+.court-svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(96vw, 520px);
+  height: auto;   /* preserves viewBox aspect ratio — do NOT set height */
+  z-index: 0;
+  pointer-events: none;
+  opacity: 1;
+}
+#zones { position: relative; z-index: 1; }
+
+/* ── ZONE ── */
+.zone {
+  padding: 20px 24px 24px;
+  border-bottom: 1px dashed rgba(0,0,0,0.07);
+  text-align: center;
+  transition: opacity 0.15s;
+}
+.zone:last-child { border-bottom: none; padding-bottom: 12px; }
+.zone.zone-hidden { display: none; }
+.zone[data-zone="C"] { padding-top: 28px; }
+
+.zone-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.zone-tag {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mid);
+  border: 1px solid var(--rule);
+  padding: 3px 8px;
+}
+.zone-sub {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ddd;
+}
+
+/* ── CARDS GRID ── */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  align-items: stretch;
+}
+
+/* ── PLAYER CARD ── */
+.pcard {
+  /* Wide enough for longest names on one line */
+  width: 104px;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  cursor: pointer;
+  transition: border-color 0.12s, box-shadow 0.12s, opacity 0.15s;
+  text-align: center;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+.pcard:hover {
+  border-color: #C0BDB8;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+}
+.pcard.hidden {
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+/* Edit mode */
+.pcard.edit-mode .pcard-num  { display: none !important; }
+.pcard.edit-mode .pcard-badge { display: none !important; }
+.pcard-edit-input {
+  display: none;
+  width: 68px;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  text-align: center;
+  border: none;
+  border-bottom: 2px solid var(--orange);
+  background: transparent;
+  outline: none;
+  margin: 4px auto 5px;
+  color: var(--orange);
+}
+.pcard.edit-mode .pcard-edit-input { display: block; }
+
+/* Top bar */
+.pcard-bar {
+  height: 3px;
+  width: 100%;
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Number / invitee — fixed height */
+.pcard-top {
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.pcard-num {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.pcard-badge {
+  font-size: 7.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--orange);
+  line-height: 1;
+}
+
+/* Name — SINGLE LINE, no wrapping */
+.pcard-name {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 6px;
+  height: 14px; /* one line fixed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Position row */
+.pcard-pos-row {
+  padding: 5px 0 4px;
+  flex-shrink: 0;
+}
+.pcard-pos {
+  display: inline-block;
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #bbb;
+  background: #F5F3F0;
+  padding: 2px 5px;
+}
+
+/* Coach attribution */
+.pcard-coach {
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0 5px 8px;
+  line-height: 1.3;
+  flex-grow: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── TOOLTIP ── */
+.tip {
+  position: fixed;
+  background: #fff;
+  border: 1px solid #E0DDD9;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  padding: 13px 15px;
+  font-family: 'Inter', sans-serif;
+  pointer-events: none;
+  display: none;
+  max-width: 230px;
+  width: 230px;
+  z-index: 500;
+}
+.tip-coach {
+  font-size: 7.5px;
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tip-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.tip-meta {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 8px;
+}
+.tip-pov {
+  font-size: 11px;
+  line-height: 1.55;
+  color: #555;
+  border-top: 1px solid var(--rule);
+  padding-top: 8px;
+}
+
+/* ── FOOTER ── */
+.footer {
+  padding: 12px 20px 12px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── MOBILE / TABLET OVERRIDES ── */
+/* Target: make mobile and desktop match verbatim */
+@media (max-width: 600px) {
+  /* Tighten header gap on mobile */
+  .header { padding: 22px 20px 0; }
+
+  /* Controls sit flush under deck — no gap */
+  .controls { padding: 6px 20px 0; gap: 6px; }
+
+  /* Hint: one line, tighter */
+  .edit-hint {
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    padding-top: 5px;
+  }
+
+  /* Cards: narrower on mobile so 4 fit per row */
+  /* Screen ~390px - 40px padding = 350px ÷ 4 cards - 24px gaps = 80px each */
+  .pcard {
+    width: 80px;
+  }
+  .pcard-num  { font-size: 22px; }
+  .pcard-name { font-size: 8.5px; height: 13px; }
+  .pcard-coach { font-size: 7px; }
+  .pcard-pos  { font-size: 7px; }
+
+  /* Tabs: tighter padding so all 4 fit without scroll */
+  .tab { padding: 11px 13px; font-size: 9.5px; }
+
+  /* Zone padding tighter on mobile */
+  .zone { padding: 16px 16px 18px; }
+  .zone[data-zone="C"] { padding-top: 22px; }
+}
+
+@media (max-width: 420px) {
+  .footer { font-size: 7.5px; letter-spacing: 0.07em; }
+  .edit-hint { font-size: 8.5px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="eyebrow">
+    2026 WNBA Draft &nbsp;·&nbsp; Live Coach Tree &nbsp;·&nbsp; April 13, 2026
+    &nbsp;<span class="live-pill" id="live-pill"></span>
+  </div>
+  <div class="title">Who Develops Pros<span class="site-live-dot" id="site-dot"></span></div>
+  <div class="deck">Which coaches consistently produce WNBA-ready players.</div>
+</div>
+
+<div class="controls">
+  <div class="school-select-wrap">
+    <select class="school-select" id="school-select">
+      <option value="all">All Schools</option>
+      <option value="close">UCLA</option>
+      <option value="staley">South Carolina</option>
+      <option value="mulkey">LSU</option>
+      <option value="auriemma">UConn</option>
+      <option value="pebley">TCU</option>
+      <option value="yo">Ole Miss</option>
+      <option value="intl">International</option>
+    </select>
+    <span class="select-arrow">▼</span>
+  </div>
+  <button class="edit-btn" id="edit-btn">
+    <span class="edit-badge"></span>
+    Live Edit
+  </button>
+  <div class="edit-hint">Live Edit — enter picks as they're called</div>
+</div>
+
+<nav class="tabs" id="tabs">
+  <button class="tab active" data-filter="all">All</button>
+  <button class="tab" data-filter="G">Guards</button>
+  <button class="tab" data-filter="F">Forwards</button>
+  <button class="tab" data-filter="C">Centers</button>
+</nav>
+
+<div class="page" id="page">
+  <svg class="court-svg" viewBox="0 0 300 285"
+       xmlns="http://www.w3.org/2000/svg"
+       fill="none" stroke="#555" stroke-width="1.2">
+    <rect x="1"   y="1"   width="298" height="283" opacity="0.09"/>
+    <rect x="101" y="1"   width="98"  height="114" opacity="0.11"/>
+    <rect x="115" y="1"   width="70"  height="114" opacity="0.06"/>
+    <line x1="101" y1="70"  x2="88"  y2="70"  opacity="0.09"/>
+    <line x1="199" y1="70"  x2="212" y2="70"  opacity="0.09"/>
+    <line x1="101" y1="93"  x2="88"  y2="93"  opacity="0.09"/>
+    <line x1="199" y1="93"  x2="212" y2="93"  opacity="0.09"/>
+    <line x1="101" y1="115" x2="199" y2="115" opacity="0.11"/>
+    <path d="M 113 115 A 37 37 0 0 1 187 115" opacity="0.11"/>
+    <circle cx="150" cy="115" r="37" stroke-dasharray="5 4" opacity="0.08"/>
+    <path d="M 28 1 L 28 82 A 124 124 0 0 0 272 82 L 272 1" opacity="0.11"/>
+    <path d="M 125 22 A 27 27 0 0 1 175 22" opacity="0.09"/>
+    <line x1="130" y1="7" x2="170" y2="7" stroke-width="2.5" opacity="0.14"/>
+    <circle cx="150" cy="17" r="6"  stroke-width="1.8" opacity="0.17"/>
+    <line x1="1"   y1="283" x2="299" y2="283" opacity="0.09"/>
+    <circle cx="150" cy="283" r="38" opacity="0.09"/>
+    <circle cx="150" cy="283" r="4"  opacity="0.11" fill="#555" stroke="none"/>
+  </svg>
+  <div id="zones"></div>
+</div>
+
+<div class="footer">
+  2026 WNBA Live Draft Tracker &nbsp;·&nbsp; Coach Tree &nbsp;·&nbsp; Built by Kris E. Smith
+</div>
+
+<div class="tip" id="tip">
+  <div class="tip-coach" id="tip-coach"></div>
+  <div class="tip-name"  id="tip-name"></div>
+  <div class="tip-meta"  id="tip-meta"></div>
+  <div class="tip-pov"   id="tip-pov"></div>
+</div>
+
+<script>
+// ── DATA — Yolanda McPhee corrected ───────────────────────────────────────
+const COACHES = [
+  { id:'close',    name:'Cori Close',          label:'Cori Close',    program:'UCLA',           color:'#2774AE' },
+  { id:'staley',   name:'Dawn Staley',          label:'Dawn Staley',   program:'South Carolina', color:'#73000A' },
+  { id:'mulkey',   name:'Kim Mulkey',           label:'Kim Mulkey',    program:'LSU',            color:'#461D7C' },
+  { id:'auriemma', name:'Geno Auriemma',        label:'Geno Auriemma', program:'UConn',          color:'#002868' },
+  { id:'pebley',   name:'Mark Campbell',        label:'Mark Campbell', program:'TCU',            color:'#4D1979' },
+  { id:'yo',       name:'Yolett McPhee-McCuin', label:'Yolett McPhee-McCuin', program:'Ole Miss',       color:'#CE1126' },
+  { id:'intl',     name:'International',        label:'International', program:'No NCAA',        color:'#888888' },
+];
+
+const picks = {};
+
+const PLAYERS = [
+  // CENTERS
+  { id:'fam',       name:'Awa Fam',         coach:'intl',    pos:'C',     posGroup:'C', proj:1,
+    pov:"Projected #1 overall. 19-year-old center from Spain. Never played in the NCAA. Her presence at the top of this board signals the WNBA has become a global league." },
+  { id:'betts',     name:'Lauren Betts',    coach:'close',   pos:'C',     posGroup:'C', proj:4,
+    pov:"NCAA Tournament MOP. Big Ten Player of the Year. 17.1 PPG, 8.8 RPG. Close built an offense around her strengths across three seasons at UCLA. The result is a top-4 pick." },
+  { id:'okot',      name:'Madina Okot',     coach:'staley',  pos:'C',     posGroup:'C', proj:null,
+    pov:"A Basketball Without Borders discovery from Kenya. Staley developed her into a draft-worthy prospect. The pipeline from Columbia runs further than American courts." },
+
+  // FORWARDS
+  { id:'angloma',   name:'Nell Angloma',    coach:'intl',    pos:'SF',    posGroup:'F', proj:9,
+    pov:"5-11 forward from France. Already has professional experience at Lattes Montpellier. Not a prospect arriving at the league — already a player." },
+  { id:'dugalic',   name:'Angela Dugalić',  coach:'close',   pos:'PF',    posGroup:'F', proj:null,
+    pov:"Big Ten Sixth Player of the Year. 9.0 PPG, 5.6 RPG. Represented Serbia at two Olympics. Close deployed her as the perfect complementary piece on a loaded UCLA roster." },
+  { id:'mcmahon',   name:'Cotie McMahon',   coach:'yo',      pos:'SF',    posGroup:'F', proj:null,
+    pov:"19.5 PPG in her final season. SEC Newcomer of the Year. An Ohio State transfer who became the face of Ole Miss women's basketball. Yolett McPhee-McCuin saw it before anyone else." },
+  { id:'suarez',    name:'Marta Suárez',    coach:'pebley',  pos:'SF',    posGroup:'F', proj:null,
+    pov:"Spain national team forward at TCU. Campbell recruited internationally and developed her into a draft prospect." },
+
+  // GUARDS
+  { id:'fudd',      name:'Azzi Fudd',         coach:'auriemma',pos:'SG',    posGroup:'G', proj:2,
+    pov:"Led the nation with 117 made threes at 44.7%. Career-high 17.3 PPG. Auriemma kept her patient through years of injuries. That investment is what you're watching tonight." },
+  { id:'miles',     name:'Olivia Miles',      coach:'pebley',  pos:'PG',    posGroup:'G', proj:3,
+    pov:"Skipped the draft last year when projected top-3. Transferred from Notre Dame to TCU and made Campbell's program the right stage to prove herself." },
+  { id:'rice',      name:'Kiki Rice',         coach:'close',   pos:'PG',    posGroup:'G', proj:5,
+    pov:"Team-high 5.6 APG on a loaded UCLA roster. Made everyone around her better. That is the mark of a point guard who understands the game past the stat sheet." },
+  { id:'johnson_f', name:"Flau'Jae Johnson",  coach:'mulkey',  pos:'SG',    posGroup:'G', proj:6,
+    pov:"Two-time Ann Meyers Drysdale finalist. 2,050 career points at LSU. Mulkey channeled her competitive edge into production. Coming into the league with something to prove." },
+  { id:'latson',    name:"Ta'Niya Latson",    coach:'staley',  pos:'SG',    posGroup:'G', proj:7,
+    pov:"14.1 PPG, 3.6 APG, career-best 48.6% FG. Transferred from Florida State to SC for her senior season. Staley's latest pro — the pipeline is the most consistent in women's basketball." },
+  { id:'kneepkens', name:'Gianna Kneepkens',   coach:'close',   pos:'SG',    posGroup:'G', proj:8,
+    pov:"Team-high 87 made threes. Shot 42.9% from three on 49.3% overall. Multiple seasons above 42% from deep. Close put her in position to show the full range." },
+  { id:'jaquez',    name:'Gabriela Jaquez',   coach:'close',   pos:'SG/SF', posGroup:'G', proj:11,
+    pov:"21 points and 10 rebounds in the national title game. 53.9% FG, 39.0% from three. Jaime Jaquez Jr.'s sister — the family knows how to compete at the highest level." },
+  { id:'johnson_r', name:'Raven Johnson',     coach:'staley',  pos:'G',     posGroup:'G', proj:11,
+    pov:"One of the most tenacious defenders Staley has developed. A Georgia transfer who became a cornerstone of SC's identity — relentless on the ball, selfless off it." },
+];
+
+PLAYERS.forEach(p => { picks[p.id] = p.proj; });
+
+const ZONES = [
+  { id:'C', tag:'Paint',     sub:'Centers'  },
+  { id:'F', tag:'Wing',      sub:'Forwards' },
+  { id:'G', tag:'Perimeter', sub:'Guards'   },
+];
+
+const byPos = { C:[], F:[], G:[] };
+PLAYERS.forEach(p => byPos[p.posGroup].push(p));
+
+// ── TOOLTIP ───────────────────────────────────────────────────────────────
+const tip      = document.getElementById('tip');
+const tipCoach = document.getElementById('tip-coach');
+const tipName  = document.getElementById('tip-name');
+const tipMeta  = document.getElementById('tip-meta');
+const tipPov   = document.getElementById('tip-pov');
+let tipTimer   = null;
+
+function showTip(p, coach, x, y) {
+  if (editMode) return;
+  const pickNum = picks[p.id];
+  tipCoach.textContent = coach.id === 'intl'
+    ? 'International'
+    : `${coach.label} · ${coach.program}`;
+  tipCoach.style.color = coach.color;
+  tipName.textContent  = p.name;
+  tipMeta.textContent  = pickNum
+    ? `Pick #${pickNum} · ${p.pos}`
+    : `Draft Invitee · ${p.pos}`;
+  tipPov.textContent   = p.pov;
+  // Constrain: never below 80px from bottom, never right of screen
+  const lx = Math.min(x + 16, window.innerWidth - 246);
+  const maxTop = window.innerHeight - 220;
+  const ty = Math.min(Math.max(y - 10, 60), maxTop);
+  tip.style.left    = lx + 'px';
+  tip.style.top     = ty  + 'px';
+  tip.style.display = 'block';
+  clearTimeout(tipTimer);
+}
+
+function hideTip(immediate) {
+  clearTimeout(tipTimer);
+  if (immediate) {
+    tip.style.display = 'none';
+  } else {
+    tipTimer = setTimeout(() => { tip.style.display = 'none'; }, 80);
+  }
+}
+
+document.addEventListener('click',      e => { if (!e.target.closest('.pcard')) hideTip(true); });
+document.addEventListener('touchstart', e => { if (!e.target.closest('.pcard')) hideTip(true); }, { passive: true });
+window.addEventListener('scroll', () => hideTip(true), { passive: true });
+
+// ── EDIT MODE ─────────────────────────────────────────────────────────────
+let editMode = false;
+
+document.getElementById('edit-btn').addEventListener('click', () => {
+  editMode = !editMode;
+  document.getElementById('edit-btn').classList.toggle('active', editMode);
+  hideTip(true);
+
+  document.querySelectorAll('.pcard').forEach(card => {
+    card.classList.toggle('edit-mode', editMode);
+    card.style.cursor = editMode ? 'text' : 'pointer';
+
+    if (!editMode) {
+      const input = card.querySelector('.pcard-edit-input');
+      const numEl = card.querySelector('.pcard-num');
+      const badge = card.querySelector('.pcard-badge');
+      if (input && numEl) {
+        const val = parseInt(input.value);
+        const pid = card.dataset.pid;
+        if (!isNaN(val) && val > 0) {
+          picks[pid] = val;
+          numEl.textContent = val;
+          numEl.style.display = '';
+          if (badge) badge.style.display = 'none';
+        }
+      }
+    }
+  });
+});
+
+// ── BUILD ZONES ───────────────────────────────────────────────────────────
+const zonesEl = document.getElementById('zones');
+
+ZONES.forEach(zone => {
+  const section = document.createElement('div');
+  section.className = 'zone';
+  section.dataset.zone = zone.id;
+
+  const hdr = document.createElement('div');
+  hdr.className = 'zone-header';
+  hdr.innerHTML = `<span class="zone-tag">${zone.tag}</span><span class="zone-sub">${zone.sub}</span>`;
+  section.appendChild(hdr);
+
+  const cards = document.createElement('div');
+  cards.className = 'cards';
+
+  byPos[zone.id].forEach(p => {
+    const coach = COACHES.find(c => c.id === p.coach);
+    const card  = document.createElement('div');
+    card.className = 'pcard';
+    card.dataset.posGroup = p.posGroup;
+    card.dataset.coachId  = p.coach;
+    card.dataset.pid      = p.id;
+
+    // 1. Top color bar
+    const bar = document.createElement('span');
+    bar.className = 'pcard-bar';
+    bar.style.background = coach.color;
+    card.appendChild(bar);
+
+    // 2. Number / invitee — fixed height container
+    const topArea = document.createElement('div');
+    topArea.className = 'pcard-top';
+
+    const input = document.createElement('input');
+    input.className = 'pcard-edit-input';
+    input.type = 'number';
+    input.min  = '1';
+    input.max  = '45';
+    input.placeholder = '#';
+    topArea.appendChild(input);
+
+    const num = document.createElement('div');
+    num.className = 'pcard-num';
+    num.style.color = coach.color;
+
+    if (p.proj) {
+      num.textContent = p.proj;
+      input.value = p.proj;
+      topArea.appendChild(num);
+    } else {
+      const badge = document.createElement('div');
+      badge.className = 'pcard-badge';
+      badge.textContent = 'Invitee';
+      topArea.appendChild(badge);
+      num.style.display = 'none';
+      topArea.appendChild(num);
+    }
+    card.appendChild(topArea);
+
+    // 3. Name — single line, no wrap
+    const name = document.createElement('div');
+    name.className = 'pcard-name';
+    name.textContent = p.name;
+    card.appendChild(name);
+
+    // 4. Position
+    const posRow = document.createElement('div');
+    posRow.className = 'pcard-pos-row';
+    const pos = document.createElement('span');
+    pos.className = 'pcard-pos';
+    pos.textContent = p.pos;
+    posRow.appendChild(pos);
+    card.appendChild(posRow);
+
+    // 5. Coach / program attribution
+    const coachLine = document.createElement('div');
+    coachLine.className = 'pcard-coach';
+    coachLine.style.color = coach.color;
+    coachLine.textContent = coach.id === 'intl' ? 'International' : coach.program;
+    card.appendChild(coachLine);
+
+    // Input events
+    input.addEventListener('input', () => {
+      const val = parseInt(input.value);
+      if (!isNaN(val) && val > 0) {
+        picks[p.id] = val;
+        num.textContent = val;
+        num.style.color = coach.color;
+      }
+    });
+    input.addEventListener('click', e => e.stopPropagation());
+
+    // Mouse tooltip
+    card.addEventListener('mousemove', e => {
+      if (editMode) return;
+      clearTimeout(tipTimer);
+      showTip(p, coach, e.clientX, e.clientY);
+    });
+    card.addEventListener('mouseleave', () => hideTip(false));
+
+    // Touch tooltip — tap to show, tap elsewhere or re-tap to hide
+    let isTipOpen = false;
+    card.addEventListener('touchend', e => {
+      if (editMode) return;
+      e.preventDefault();
+      const t = e.changedTouches[0];
+      if (isTipOpen) {
+        hideTip(true);
+        isTipOpen = false;
+      } else {
+        showTip(p, coach,
+          Math.min(t.clientX, window.innerWidth - 246),
+          Math.max(t.clientY - 120, 10)
+        );
+        isTipOpen = true;
+        clearTimeout(tipTimer);
+        tipTimer = setTimeout(() => { hideTip(true); isTipOpen = false; }, 3200);
+      }
+    });
+
+    cards.appendChild(card);
+  });
+
+  section.appendChild(cards);
+  zonesEl.appendChild(section);
+});
+
+// ── LIVE INDICATOR ────────────────────────────────────────────────────────
+// Draft: April 13 2026, 7:00 PM – 9:30 PM Eastern Time
+const DRAFT_START = new Date('2026-04-13T23:00:00Z'); // 7 PM ET = 23:00 UTC
+const DRAFT_END   = new Date('2026-04-14T01:30:00Z'); // 9:30 PM ET = 01:30 UTC next day
+
+function updateLivePill() {
+  const now  = new Date();
+  const pill = document.getElementById('live-pill');
+  const dot  = document.getElementById('site-dot');
+  const isLive = now >= DRAFT_START && now <= DRAFT_END;
+  if (isLive) {
+    pill.textContent = 'Live';
+    pill.classList.add('active');
+    dot.classList.add('active');
+  } else {
+    pill.classList.remove('active');
+    dot.classList.remove('active');
+  }
+}
+
+updateLivePill();
+setInterval(updateLivePill, 30000); // recheck every 30 seconds
+
+// ── FILTERS ───────────────────────────────────────────────────────────────
+let activePos    = 'all';
+let activeSchool = 'all';
+
+function applyFilters() {
+  document.querySelectorAll('.pcard').forEach(card => {
+    const pg = card.dataset.posGroup;
+    const ci = card.dataset.coachId;
+    const posOk    = activePos === 'all'    || pg === activePos;
+    const schoolOk = activeSchool === 'all' || ci === activeSchool;
+    card.classList.toggle('hidden', !(posOk && schoolOk));
+  });
+
+  document.querySelectorAll('.zone').forEach(zone => {
+    const visible = zone.querySelectorAll('.pcard:not(.hidden)').length;
+    zone.classList.toggle('zone-hidden', visible === 0);
+  });
+}
+
+document.getElementById('tabs').addEventListener('click', e => {
+  if (!e.target.matches('.tab')) return;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  e.target.classList.add('active');
+  activePos = e.target.dataset.filter;
+  applyFilters();
+});
+
+document.getElementById('school-select').addEventListener('change', e => {
+  activeSchool = e.target.value;
+  applyFilters();
+});
+</script>
+</body>
+</html>
