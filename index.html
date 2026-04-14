@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" style="color-scheme:light;">
+<html lang="en" style="color-scheme:light;background:#fff;">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
-<title>2026 WNBA Live Draft Tracker — Who Develops Pros</title>
+<title>Who Develops Pros · 2026 WNBA Draft</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -16,61 +16,15 @@
   --rule:   #EDEAE6;
   --bg:     #FFFFFF;
 }
-html {
-  color-scheme: light;
-  background: #FAF9F7;
-  height: auto;
-}
-
 html, body {
+  background: var(--bg) !important;
   color: var(--ink) !important;
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
-  margin: 0;
-  padding: 0;
+  overscroll-behavior-y: none;
 }
-
-body {
-  background: var(--bg) !important;
-  height: auto;
-  display: block;
-}
-
-.live-pill {
-  display: none;
-  align-items: center;
-  gap: 4px;
-  background: #FF2233;
-  color: #fff;
-  font-size: 8px;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  padding: 3px 7px 3px 5px;
-  vertical-align: middle;
-  position: relative;
-  top: -1px;
-}
-.live-pill.active { display: inline-flex; }
-
-.live-pill::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #fff;
-  flex-shrink: 0;
-  animation: livepulse 1.1s ease-in-out infinite;
-}
-
-@keyframes livepulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.4; transform: scale(0.7); }
-}
-
-
 .header {
-  padding: 28px 24px 0;
+  padding: 28px 24px 16px;
   border-top: 2.5px solid var(--orange);
   text-align: center;
 }
@@ -94,17 +48,24 @@ body {
   font-size: 12px;
   color: var(--mid);
   line-height: 1.55;
-  max-width: 380px;
+  max-width: 680px;
   margin: 0 auto;
+  white-space: nowrap;
 }
-
-/* ── CONTROLS ── */
+.deck-hover {
+  font-size: 10px;
+  color: var(--orange);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
 .controls {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 6px 24px 0;
+  padding: 4px 24px 0;
   flex-wrap: wrap;
 }
 .school-select-wrap {
@@ -126,7 +87,7 @@ body {
   appearance: none;
   -webkit-appearance: none;
   outline: none;
-  min-width: 150px;
+  min-width: 164px;
 }
 .school-select:focus { border-color: #bbb; }
 .select-arrow {
@@ -136,68 +97,6 @@ body {
   font-size: 8px;
   color: var(--mid);
 }
-.edit-btn {
-  font-family: 'Inter', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 7px 14px;
-  border: 1px solid var(--rule);
-  background: var(--bg);
-  color: var(--mid);
-  cursor: pointer;
-  transition: all 0.12s;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.edit-btn:hover { border-color: #bbb; color: var(--ink); }
-.edit-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
-.edit-badge {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--orange);
-  animation: pulse 1.4s ease-in-out infinite;
-  display: none;
-}
-.edit-btn.active .edit-badge { display: block; }
-@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
-.edit-hint {
-  width: 100%;
-  text-align: center;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--orange);
-  padding-top: 6px;
-}
-
-/* Site-level live dot — always in header during draft window */
-.site-live-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--orange);
-  margin-left: 6px;
-  vertical-align: middle;
-  position: relative;
-  top: -1px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.site-live-dot.active {
-  opacity: 1;
-  animation: sitepulse 1.4s ease-in-out infinite;
-}
-@keyframes sitepulse {
-  0%,100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: 0.35; transform: scale(0.65); }
-}
-
-/* ── TABS ── */
 .tabs {
   display: flex;
   justify-content: center;
@@ -212,11 +111,11 @@ body {
 .tab {
   flex-shrink: 0;
   font-family: 'Inter', sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 12px 18px;
+  padding: 11px 18px;
   border: none;
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
@@ -228,37 +127,28 @@ body {
 }
 .tab:hover  { color: var(--ink); }
 .tab.active { color: var(--orange); border-bottom-color: var(--orange); }
-
-/* ── PAGE + COURT ── */
 .page {
   position: relative;
-  overflow: hidden;
 }
-/* Court: fixed proportional size, centered behind all three zones */
 .court-svg {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(96vw, 520px);
-  height: auto;   /* preserves viewBox aspect ratio — do NOT set height */
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: min(88vw, 400px);
+  height: 100%;
   z-index: 0;
   pointer-events: none;
-  opacity: 1;
 }
 #zones { position: relative; z-index: 1; }
-
-/* ── ZONE ── */
 .zone {
-  padding: 20px 24px 24px;
+  padding: 12px 24px 24px;
   border-bottom: 1px dashed rgba(0,0,0,0.07);
   text-align: center;
   transition: opacity 0.15s;
 }
-.zone:last-child { border-bottom: none; padding-bottom: 12px; }
+.zone:last-child { border-bottom: none; }
 .zone.zone-hidden { display: none; }
-.zone[data-zone="C"] { padding-top: 28px; }
-
+.zone[data-zone="C"] { padding-top: 14px; }
 .zone-header {
   display: inline-flex;
   align-items: center;
@@ -281,8 +171,6 @@ body {
   text-transform: uppercase;
   color: #ddd;
 }
-
-/* ── CARDS GRID ── */
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -290,10 +178,7 @@ body {
   gap: 8px;
   align-items: stretch;
 }
-
-/* ── PLAYER CARD ── */
 .pcard {
-  /* Wide enough for longest names on one line */
   width: 104px;
   background: var(--bg);
   border: 1px solid var(--rule);
@@ -314,35 +199,12 @@ body {
   opacity: 0.06;
   pointer-events: none;
 }
-
-/* Edit mode */
-.pcard.edit-mode .pcard-num  { display: none !important; }
-.pcard.edit-mode .pcard-badge { display: none !important; }
-.pcard-edit-input {
-  display: none;
-  width: 68px;
-  font-family: 'Inter', sans-serif;
-  font-size: 18px;
-  font-weight: 900;
-  text-align: center;
-  border: none;
-  border-bottom: 2px solid var(--orange);
-  background: transparent;
-  outline: none;
-  margin: 4px auto 5px;
-  color: var(--orange);
-}
-.pcard.edit-mode .pcard-edit-input { display: block; }
-
-/* Top bar */
 .pcard-bar {
   height: 3px;
   width: 100%;
   display: block;
   flex-shrink: 0;
 }
-
-/* Number / invitee — fixed height */
 .pcard-top {
   height: 46px;
   display: flex;
@@ -356,16 +218,6 @@ body {
   letter-spacing: -0.04em;
   line-height: 1;
 }
-.pcard-badge {
-  font-size: 7.5px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--orange);
-  line-height: 1;
-}
-
-/* Name — SINGLE LINE, no wrapping */
 .pcard-name {
   font-size: 9px;
   font-weight: 700;
@@ -374,14 +226,12 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0 6px;
-  height: 14px; /* one line fixed */
+  height: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
-
-/* Position row */
 .pcard-pos-row {
   padding: 5px 0 4px;
   flex-shrink: 0;
@@ -396,50 +246,83 @@ body {
   background: #F5F3F0;
   padding: 2px 5px;
 }
-
-/* Coach attribution */
 .pcard-coach {
   font-size: 7.5px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0 5px 8px;
+  padding: 0 5px 0;
   line-height: 1.3;
-  flex-grow: 1;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  flex-shrink: 0;
 }
-
-/* ── TOOLTIP ── */
+/* Option 5: defining stat on card */
+.pcard-stat {
+  font-size: 7.5px;
+  font-weight: 400;
+  font-style: italic;
+  color: #555;
+  padding: 5px 6px 8px;
+  line-height: 1.45;
+  text-align: center;
+  flex-grow: 1;
+}
+/* Tooltip */
 .tip {
   position: fixed;
   background: #fff;
   border: 1px solid #E0DDD9;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  padding: 13px 15px;
+  padding: 14px 16px;
   font-family: 'Inter', sans-serif;
   pointer-events: none;
-  display: none;
-  max-width: 230px;
-  width: 230px;
+  opacity: 0;
+  transition: opacity 0.12s;
+  max-width: 260px;
+  width: 260px;
   z-index: 500;
 }
-.tip-coach {
-  font-size: 7.5px;
+/* Option 2: pipeline header as 3 separate lines */
+.tip-hc {
+  font-size: 9px;
   font-weight: 800;
-  letter-spacing: 0.10em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  margin-bottom: 4px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.7;
+}
+.tip-school {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.7;
+}
+.tip-context {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 6px;
+}
+.tip-staff {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 8px;
+  line-height: 1.4;
 }
 .tip-name {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
   color: var(--ink);
   margin-bottom: 2px;
@@ -459,10 +342,8 @@ body {
   border-top: 1px solid var(--rule);
   padding-top: 8px;
 }
-
-/* ── FOOTER ── */
 .footer {
-  padding: 12px 20px 12px;
+  padding: 14px 20px 14px;
   border-top: 1px solid var(--rule);
   text-align: center;
   font-size: 8.5px;
@@ -470,81 +351,57 @@ body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-
-/* ── MOBILE / TABLET OVERRIDES ── */
-/* Target: make mobile and desktop match verbatim */
-@media (max-width: 600px) {
-  /* Tighten header gap on mobile */
-  .header { padding: 22px 20px 0; }
-
-  /* Controls sit flush under deck — no gap */
-  .controls { padding: 6px 20px 0; gap: 6px; }
-
-  /* Hint: one line, tighter */
-  .edit-hint {
-    font-size: 9px;
-    letter-spacing: 0.06em;
-    padding-top: 5px;
-  }
-
-  /* Cards: narrower on mobile so 4 fit per row */
-  /* Screen ~390px - 40px padding = 350px ÷ 4 cards - 24px gaps = 80px each */
-  .pcard {
-    width: 80px;
-  }
-  .pcard-num  { font-size: 22px; }
-  .pcard-name { font-size: 8.5px; height: 13px; }
-  .pcard-coach { font-size: 7px; }
-  .pcard-pos  { font-size: 7px; }
-
-  /* Tabs: tighter padding so all 4 fit without scroll */
-  .tab { padding: 11px 13px; font-size: 9.5px; }
-
-  /* Zone padding tighter on mobile */
-  .zone { padding: 16px 16px 18px; }
-  .zone[data-zone="C"] { padding-top: 22px; }
+@media (max-width: 640px) {
+  .header { padding: 20px 16px 12px; }
+  .deck { white-space: normal; font-size: 9px; max-width: 100%; }
+  .deck-hover { font-size: 8.5px; margin-top: 4px; }
+  .controls { padding: 3px 16px 0; }
+  .tabs { margin-top: 10px; }
+  .tab { font-size: 11px; padding: 10px 14px; }
+  .zone { padding: 10px 16px 20px; }
+  .zone[data-zone="C"] { padding-top: 12px; }
 }
-
 @media (max-width: 420px) {
-  .footer { font-size: 7.5px; letter-spacing: 0.07em; }
-  .edit-hint { font-size: 8.5px; }
+  .footer { font-size: 7.5px; letter-spacing: 0.07em; padding: 12px 16px; }
+  .pcard { width: 90px; }
+  .pcard-num { font-size: 24px; }
 }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="eyebrow">
-    2026 WNBA Draft &nbsp;·&nbsp; Live Coach Tree &nbsp;·&nbsp; April 13, 2026
-    &nbsp;<span class="live-pill" id="live-pill"></span>
-  </div>
-  <div class="title">Who Develops Pros<span class="site-live-dot" id="site-dot"></span></div>
-  <div class="deck">Which coaches consistently produce WNBA-ready players.</div>
+  <div class="eyebrow">2026 WNBA Draft &nbsp;·&nbsp; Coach Pipeline Viz &nbsp;·&nbsp; 45 Picks · 15 Teams</div>
+  <div class="title">Who Develops Pros</div>
+  <div class="deck">Which coaches consistently produce WNBA-ready players and what the 2026 class reveals.</div>
+  <div class="deck-hover">Hover any card to see who built the player</div>
 </div>
 
 <div class="controls">
   <div class="school-select-wrap">
     <select class="school-select" id="school-select">
-      <option value="all">All Schools</option>
+      <option value="all">All Programs</option>
       <option value="close">UCLA</option>
       <option value="staley">South Carolina</option>
-      <option value="mulkey">LSU</option>
       <option value="auriemma">UConn</option>
-      <option value="pebley">TCU</option>
+      <option value="mulkey">LSU</option>
+      <option value="campbell">TCU</option>
       <option value="yo">Ole Miss</option>
+      <option value="brooks">Kentucky</option>
+      <option value="lawson">Duke</option>
+      <option value="schaefer">Texas</option>
+      <option value="caldwell">Tennessee</option>
+      <option value="collen">Baylor</option>
+      <option value="banghart">UNC</option>
+      <option value="fralick">Michigan State</option>
+      <option value="ralph">Vanderbilt</option>
+      <option value="ivey">Notre Dame</option>
+      <option value="mcguff">Ohio State</option>
       <option value="intl">International</option>
     </select>
     <span class="select-arrow">▼</span>
   </div>
-  <button class="edit-btn" id="edit-btn">
-    <span class="edit-badge"></span>
-    Live Edit
-  </button>
-  <div class="edit-hint">Live Edit — enter picks as they're called</div>
 </div>
 
 <nav class="tabs" id="tabs">
@@ -580,223 +437,222 @@ body {
 </div>
 
 <div class="footer">
-  2026 WNBA Live Draft Tracker &nbsp;·&nbsp; Coach Tree &nbsp;·&nbsp; Built by Kris E. Smith
+  Who Develops Pros &nbsp;·&nbsp; 2026 WNBA Draft &nbsp;·&nbsp; Built by Kris E. Smith
 </div>
 
 <div class="tip" id="tip">
-  <div class="tip-coach" id="tip-coach"></div>
-  <div class="tip-name"  id="tip-name"></div>
-  <div class="tip-meta"  id="tip-meta"></div>
-  <div class="tip-pov"   id="tip-pov"></div>
+  <div class="tip-hc"      id="tip-hc"></div>
+  <div class="tip-school"  id="tip-school"></div>
+  <div class="tip-context" id="tip-context"></div>
+  <div class="tip-staff"   id="tip-staff"></div>
+  <div class="tip-name"    id="tip-name"></div>
+  <div class="tip-meta"    id="tip-meta"></div>
+  <div class="tip-pov"     id="tip-pov"></div>
 </div>
 
 <script>
-// ── DATA — Yolanda McPhee corrected ───────────────────────────────────────
 const COACHES = [
-  { id:'close',    name:'Cori Close',          label:'Cori Close',          program:'UCLA',           color:'#2774AE' },
-  { id:'staley',   name:'Dawn Staley',          label:'Dawn Staley',         program:'South Carolina', color:'#73000A' },
-  { id:'mulkey',   name:'Kim Mulkey',           label:'Kim Mulkey',          program:'LSU',            color:'#461D7C' },
-  { id:'auriemma', name:'Geno Auriemma',        label:'Geno Auriemma',       program:'UConn',          color:'#002868' },
-  { id:'pebley',   name:'Mark Campbell',        label:'Mark Campbell',       program:'TCU',            color:'#4D1979' },
-  { id:'yo',       name:'Yolett McPhee-McCuin', label:'Yolett McPhee-McCuin',program:'Ole Miss',       color:'#CE1126' },
-  { id:'lawson',   name:'Kara Lawson',          label:'Kara Lawson',         program:'Duke',           color:'#003087' },
-  { id:'ivey',     name:'Niele Ivey',           label:'Niele Ivey',          program:'Notre Dame',     color:'#0C2340' },
-  { id:'brooks',   name:'Kenny Brooks',         label:'Kenny Brooks',        program:'Kentucky',       color:'#0033A0' },
-  { id:'ralph',    name:'Shea Ralph',           label:'Shea Ralph',          program:'Vanderbilt',     color:'#866D4B' },
-  { id:'caldwell', name:'Kim Caldwell',         label:'Kim Caldwell',        program:'Tennessee',      color:'#FF8200' },
-  { id:'collen',   name:'Nicki Collen',         label:'Nicki Collen',        program:'Baylor',         color:'#154734' },
-  { id:'schaefer', name:'Vic Schaefer',         label:'Vic Schaefer',        program:'Texas',          color:'#BF5700' },
-  { id:'banghart', name:'Courtney Banghart',    label:'Courtney Banghart',   program:'UNC',            color:'#7BAFD4' },
-  { id:'fralick',  name:'Robyn Fralick',        label:'Robyn Fralick',       program:'Michigan State', color:'#18453B' },
-  { id:'curry',    name:'Kristy Curry',         label:'Kristy Curry',        program:'Alabama',        color:'#9E1B32' },
-  { id:'brondello',name:'Sandy Brondello',      label:'Sandy Brondello',     program:'NY Liberty',     color:'#000000' },
-  { id:'roberts',  name:'Lynne Roberts',        label:'Lynne Roberts',       program:'Utah',           color:'#CC0000' },
-  { id:'intl',     name:'International',        label:'International',       program:'No NCAA',        color:'#888888' },
+  { id:'auriemma', name:'Geno Auriemma',        program:'UConn',          color:'#002868',
+    pipelineStat:'52 WNBA draftees, 7 No. 1 overall picks, most in history',
+    staff:'Chris Dailey, Assoc. HC, 40 years building UConn pros' },
+  { id:'staley',   name:'Dawn Staley',           program:'South Carolina', color:'#73000A',
+    pipelineStat:'21 WNBA picks, 11 first rounders, 2 No. 1 overalls',
+    staff:'Lisa Boyer, Assoc. HC, architect of the Gamecock system' },
+  { id:'close',    name:'Cori Close',            program:'UCLA',           color:'#2D68C4',
+    pipelineStat:'6 players drafted tonight, most from one program in WNBA draft history',
+    staff:'Tasha Brown, Assoc. HC, Michaela Onyenwere, Player Dev, 2021 WNBA Rookie of Year' },
+  { id:'mulkey',   name:'Kim Mulkey',            program:'LSU',            color:'#461D7C',
+    pipelineStat:'26 career WNBA picks, 19 at Baylor, 7 at LSU, Hall of Fame',
+    staff:'Bob Starkey, Assoc. HC, film sessions at 7:50am every weekday' },
+  { id:'campbell', name:'Mark Campbell',         program:'TCU',            color:'#4D1979',
+    pipelineStat:'5 WNBA first round picks in his career',
+    staff:'Xavier Lopez, Assoc. HC, built the international pipeline at TCU' },
+  { id:'yo',       name:'Yolett McPhee-McCuin', program:'Ole Miss',       color:'#CE1126',
+    pipelineStat:'5 career WNBA picks, 2 from the same team on the same night',
+    staff:'Joy Smith, Post Coach, WNBA alum, Duke grad, leads the charge for posts' },
+  { id:'brooks',   name:'Kenny Brooks',          program:'Kentucky',       color:'#0033A0',
+    pipelineStat:'4 picks in year two, 2025 Sporting News National Coach of Year',
+    staff:'Kenny Brooks staff, first full class, 4 pros produced in year two' },
+  { id:'lawson',   name:'Kara Lawson',           program:'Duke',           color:'#003087',
+    pipelineStat:'First 2 WNBA picks of the Kara Era, USA Basketball HC',
+    staff:'Kara Lawson, 11 WNBA seasons, 2012 Olympic gold, coaches from having done it' },
+  { id:'schaefer', name:'Vic Schaefer',          program:'Texas',          color:'#BF5700',
+    pipelineStat:'6 career WNBA picks across MSU and Texas',
+    staff:'Vic Schaefer staff at Texas, defense first system built the pipeline' },
+  { id:'caldwell', name:'Kim Caldwell',          program:'Tennessee',      color:'#E04A00',
+    pipelineStat:'First 2 WNBA picks of her Tennessee tenure',
+    staff:'Caldwell third year coaching in Division I, first two picks on the board' },
+  { id:'collen',   name:'Nicki Collen',          program:'Baylor',         color:'#154734',
+    pipelineStat:'5th career WNBA pick tonight, Former WNBA Coach of Year 2018',
+    staff:'Nicki Collen staff at Baylor, rebuilt the program after Mulkey departed' },
+  { id:'banghart', name:'Courtney Banghart',     program:'UNC',            color:'#4B9CD3',
+    pipelineStat:'7 seasons building this, Nivar is first Tar Heel to earn it',
+    staff:'Banghart staff at UNC, defense first culture produced a Naismith Defensive POY candidate' },
+  { id:'fralick',  name:'Robyn Fralick',         program:'Michigan State', color:'#18453B',
+    pipelineStat:'VanSlooten is first WNBA pick of the Fralick era',
+    staff:'Fralick won 97.2% of games at Ashland before coming to MSU, she builds winners' },
+  { id:'ralph',    name:'Shea Ralph',            program:'Vanderbilt',     color:'#866D4B',
+    pipelineStat:'Pissott is first WNBA pick of the Ralph era, 7x national champion',
+    staff:'Shea Ralph, 13 seasons coaching at UConn, brought that culture to Nashville' },
+  { id:'ivey',     name:'Niele Ivey',            program:'Notre Dame',     color:'#0C2340',
+    pipelineStat:'Prosper is the 24th Notre Dame player ever drafted',
+    staff:'Niele Ivey, ND class of 2001, coaching the program you once played for' },
+  { id:'mcguff',   name:'Kevin McGuff',          program:'Ohio State',     color:'#BB0000',
+    pipelineStat:'4 straight years sending players to the WNBA',
+    staff:'Kevin McGuff staff, 21st Buckeye drafted in program history' },
+  { id:'intl',     name:'International Dev',     program:'No NCAA',        color:'#4B5563',
+    pipelineStat:'No NCAA program, built by global club systems and national federations',
+    staff:'FIBA affiliated national federation and club development pipeline' },
 ];
-
-const picks = {};
 
 const PLAYERS = [
-  // CENTERS
-  { id:'fam',       name:'Awa Fam',         coach:'intl',    pos:'C',     posGroup:'C', proj:1,
-    pov:"Projected #1 overall. 19-year-old center from Spain. Never played in the NCAA. Her presence at the top of this board signals the WNBA has become a global league." },
-  { id:'betts',     name:'Lauren Betts',    coach:'close',   pos:'C',     posGroup:'C', proj:4,
-    pov:"NCAA Tournament MOP. Big Ten Player of the Year. 17.1 PPG, 8.8 RPG. Close built an offense around her strengths across three seasons at UCLA. The result is a top-4 pick." },
-  { id:'okot',      name:'Madina Okot',     coach:'staley',  pos:'C',     posGroup:'C', proj:13,
-    pov:"A Basketball Without Borders discovery from Kenya. Staley developed her into a draft-worthy prospect. The pipeline from Columbia runs further than American courts." },
+  // PAINT
+  { id:'fam',    name:'Awa Fam Thiam',      coach:'intl',    pos:'C',  posGroup:'C', pick:3,
+    stat:'No college stats. No NIL. No Power Five. Developed entirely by Valencia Basket and the Spanish federation. Pick No. 3.' },
+  { id:'betts',  name:'Lauren Betts',        coach:'close',   pos:'C',  posGroup:'C', pick:4,
+    stat:'100 blocks in a single Big Ten season. 1st in conference, 5th nationally. 64.8% career FG. 2026 Tournament MOP.' },
+  { id:'okot',   name:'Madina Okot',         coach:'staley',  pos:'C',  posGroup:'C', pick:13,
+    stat:'12.1 PPG, 10.6 RPG double-double average. Started playing basketball in 2020. Ceiling is very far away.' },
+  { id:'buhner', name:'Frieda Bühner',       coach:'intl',    pos:'PF', posGroup:'C', pick:17,
+    stat:'German national federation built this prospect. No NCAA. No Power Five path. Portland Fire pick No. 17.' },
+  { id:'latt',   name:'Latasha Lattimore',   coach:'yo',      pos:'PF', posGroup:'C', pick:21,
+    stat:'74 total blocks. 2nd most in a single season in Ole Miss history. 2.1 BPG. Scored 28 points on 12-of-13 vs. No. 5 Vanderbilt in the SEC Tournament.' },
+  { id:'key',    name:'Teonni Key',          coach:'brooks',  pos:'PF', posGroup:'C', pick:22,
+    stat:'11.4 PPG, 7.9 RPG. First player to commit to Kenny Brooks after he was hired. Proof the system works from day one.' },
+  { id:'dlpb',   name:'D. Littlepage-Buggs',coach:'collen',  pos:'PF', posGroup:'C', pick:30,
+    stat:'Only Big 12 player to average a double-double: 10.7 PPG, 10.1 RPG. Four straight years of All-Big 12 from freshman year.' },
+  { id:'swill',  name:'Serah Williams',      coach:'auriemma',pos:'C',  posGroup:'C', pick:33,
+    stat:'16.4 PPG, 2.3 BPG across three seasons at Wisconsin. Two time All-Big Ten. Transferred to UConn. Still heard her name called.' },
+  { id:'vans',   name:'Grace VanSlooten',    coach:'fralick', pos:'PF', posGroup:'C', pick:39,
+    stat:'15.5 PPG, leading scorer at MSU. Won FIBA AmeriCup gold with Team USA in 2025. Team captain, voted by her teammates.' },
+  { id:'puoch',  name:'Manuela Puoch',       coach:'intl',    pos:'PF', posGroup:'C', pick:41,
+    stat:'Basketball Australia system. The Liberty close their draft with an international long term investment.' },
+  { id:'ratkai', name:'Eszter Ratkai',       coach:'intl',    pos:'PF', posGroup:'C', pick:42,
+    stat:'Hungarian national basketball federation. One of two Phoenix international selections tonight.' },
+  { id:'obi',    name:'Jordan Obi',          coach:'brooks',  pos:'PF', posGroup:'C', pick:44,
+    stat:'Ruptured Achilles before ever playing at Kentucky. Missed the entire year. Came back and opened 2025-26 with 15 points, 15 rebounds in her debut.' },
 
-  // FORWARDS
-  { id:'angloma',   name:'Nell Angloma',    coach:'intl',    pos:'SF',    posGroup:'F', proj:9,
-    pov:"5-11 forward from France. Already has professional experience at Lattes Montpellier. Not a prospect arriving at the league already a player." },
-  { id:'iyana',     name:'Iyana Martin',    coach:'intl',    pos:'G',     posGroup:'G', proj:7,
-    pov:"Pick #7 · Portland Fire. Spanish international. Was not one of the 15 invitees tonight she didn't need to be. Developed through European club basketball and Spain's national federation. The WNBA's global era is not coming. It's here." },
-  { id:'mair',      name:'Taina Mair',      coach:'lawson',  pos:'PG',    posGroup:'G', proj:14,
-    pov:"Duke PG under Kara Lawson the only active D1 head coach to play in a Final Four, win a WNBA championship, and win an Olympic gold medal. Mair was developed by a woman who has done everything the game offers. Kyra Elzy on staff: former Kentucky HC who recruited at an elite level. This is what a loaded coaching staff produces." },
-  { id:'dugalic',   name:'Angela Dugalić',  coach:'close',   pos:'PF',    posGroup:'F', proj:9,
-    pov:"Big Ten Sixth Player of the Year. 9.0 PPG, 5.6 RPG. Represented Serbia at two Olympics. Close deployed her as the perfect complementary piece on a loaded UCLA roster." },
-  { id:'mcmahon',   name:'Cotie McMahon',   coach:'yo',      pos:'SF',    posGroup:'F', proj:11,
-    pov:"19.5 PPG in her final season. SEC Newcomer of the Year. An Ohio State transfer who became the face of Ole Miss women's basketball. Yolett McPhee-McCuin saw it before anyone else." },
-  { id:'suarez',    name:'Marta Suárez',    coach:'pebley',  pos:'SF',    posGroup:'F', proj:16,
-    pov:"Spain national team forward at TCU. Campbell recruited internationally and developed her into a draft prospect." },
+  // WING
+  { id:'dugalic',name:'Angela Dugalić',      coach:'close',   pos:'PF', posGroup:'F', pick:9,
+    stat:'Big Ten Sixth Player of the Year. 9.0 PPG, 5.6 RPG off the bench. Represented Serbia at two Olympics before her senior year.' },
+  { id:'mcmahon',name:'Cotie McMahon',       coach:'yo',      pos:'SF', posGroup:'F', pick:11,
+    stat:'703 points in her one Ole Miss season. 4th most in program history for a single year. 19.5 PPG.' },
+  { id:'angloma',name:'Nell Angloma',        coach:'intl',    pos:'SF', posGroup:'F', pick:12,
+    stat:'Lattes Montpellier built a WNBA first round prospect before American media caught up. No NCAA. All world.' },
+  { id:'suarez', name:'Marta Suárez',        coach:'campbell',pos:'SF', posGroup:'F', pick:16,
+    stat:'17.1 PPG, 7.4 RPG in her one TCU season. Set the Big 12 single-season record for made threes by a post player (84). Six-year college journey.' },
+  { id:'prosper',name:'C. Prosper',          coach:'ivey',    pos:'SF', posGroup:'F', pick:19,
+    stat:'13.6 PPG, 6.5 RPG. Career highs in everything. ACC Most Improved Player. The 24th Notre Dame player drafted to the WNBA.' },
+  { id:'shiels', name:'Saffron Shiels',      coach:'intl',    pos:'SF', posGroup:'F', pick:26,
+    stat:'Basketball Australia and Townsville Fire. Toronto coach Sandy Brondello has known her game for years.' },
+  { id:'pitarch',name:'I. Pitarch-Granel',   coach:'intl',    pos:'SF', posGroup:'F', pick:27,
+    stat:'French club basketball system. One of two Phoenix picks from outside American programs tonight.' },
+  { id:'nivar',  name:'Indya Nivar',         coach:'banghart',pos:'SG', posGroup:'F', pick:28,
+    stat:'Named to the Naismith Defensive Player of the Year watchlist. Stanford transfer to UNC. Three seasons later, a pro.' },
+  { id:'barker', name:'Janiah Barker',       coach:'caldwell',pos:'PF', posGroup:'F', pick:29,
+    stat:'14.3 PPG, 6.6 RPG, career high 46.6% FG in her only Tennessee season. One year. Career highs in everything.' },
+  { id:'spear',  name:'Zee Spearman',        coach:'caldwell',pos:'PF', posGroup:'F', pick:31,
+    stat:'10.2 PPG, 5.8 RPG, 1.3 BPG. Led Tennessee in offensive rebounds. USA Basketball 2025 FIBA 3x3 Nations League. One of two Lady Vols drafted tonight.' },
+  { id:'hass',   name:'Amelia Hassett',      coach:'brooks',  pos:'SF', posGroup:'F', pick:35,
+    stat:'99 three-pointers. Kentucky single-season record. Started every game over two seasons under Brooks (67 starts).' },
+  { id:'tanaka', name:'Kokoro Tanaka',       coach:'intl',    pos:'SF', posGroup:'F', pick:38,
+    stat:'Japanese national basketball system (JBA). The WNBA reach just hit the Pacific.' },
+  { id:'timmons',name:'Jessica Timmons',     coach:'intl',    pos:'SG', posGroup:'F', pick:40,
+    stat:'16.3 PPG, All-SEC at Alabama after transferring from NC State. Found her game in Tuscaloosa.' },
+  { id:'ran',    name:'Kejia Ran',           coach:'intl',    pos:'SG', posGroup:'F', pick:43,
+    stat:'Chinese Basketball Association Women League (WCBA). The Dream close their class with a global reach pick.' },
+  { id:'lwhite', name:'Lani White',          coach:'intl',    pos:'SG', posGroup:'F', pick:45,
+    stat:'15.9 PPG, 4.7 RPG in her senior year. Hit 7-of-7 threes in a single game. Last pick of the 2026 draft. Someone believed in her first.' },
 
-  // GUARDS
-  { id:'fudd',      name:'Azzi Fudd',         coach:'auriemma',pos:'SG',    posGroup:'G', proj:1,
-    pov:"Pick #1 · Dallas Wings. The 7th UConn Husky drafted #1 overall. Named after 1996 Olympic gold medalist Jennifer Azzi her mother's favorite player. Chris Dailey believed in her through every injury. 40 seasons. This is what it looks like." },
-  { id:'miles',     name:'Olivia Miles',      coach:'pebley',  pos:'PG',    posGroup:'G', proj:3,
-    pov:"Skipped the draft last year when projected top-3. Transferred from Notre Dame to TCU and made Campbell's program the right stage to prove herself." },
-  { id:'rice',      name:'Kiki Rice',         coach:'close',   pos:'PG',    posGroup:'G', proj:5,
-    pov:"Team-high 5.6 APG on a loaded UCLA roster. Made everyone around her better. That is the mark of a point guard who understands the game past the stat sheet." },
-  { id:'johnson_f', name:"Flau'Jae Johnson",  coach:'mulkey',  pos:'SG',    posGroup:'G', proj:6,
-    pov:"Two-time Ann Meyers Drysdale finalist. 2,050 career points at LSU. Mulkey channeled her competitive edge into production. Coming into the league with something to prove." },
-  { id:'latson',    name:"Ta'Niya Latson",    coach:'staley',  pos:'SG',    posGroup:'G', proj:7,
-    pov:"14.1 PPG, 3.6 APG, career-best 48.6% FG. Transferred from Florida State to SC for her senior season. Staley's latest pro the pipeline is the most consistent in women's basketball." },
-  { id:'kneepkens', name:'Gianna Kneepkens',   coach:'close',   pos:'SG',    posGroup:'G', proj:8,
-    pov:"Team-high 87 made threes. Shot 42.9% from three on 49.3% overall. Multiple seasons above 42% from deep. Close put her in position to show the full range." },
-  { id:'jaquez',    name:'Gabriela Jaquez',   coach:'close',   pos:'SG/SF', posGroup:'G', proj:11,
-    pov:"21 points and 10 rebounds in the national title game. 53.9% FG, 39.0% from three. Jaime Jaquez Jr.'s sister the family knows how to compete at the highest level." },
-  { id:'johnson_r', name:'Raven Johnson',     coach:'staley',  pos:'G',     posGroup:'G', proj:11,
-    pov:"One of the most tenacious defenders Staley has developed. A Georgia transfer who became a cornerstone of SC's identity relentless on the ball, selfless off it." },
-  { id:'leger',     name:'C. Leger-Walker',  coach:'close',   pos:'PG',    posGroup:'G', proj:18,
-    pov:"Pick #18 · Connecticut Sun. The 6th UCLA Bruin drafted tonight — the Bruins are the first program ever to have six players selected in one WNBA Draft. Tony Newnan's fingerprints are on every single one." },
-  { id:'buhner',    name:'Frieda Bühner',    coach:'intl',    pos:'PF',    posGroup:'F', proj:17,
-    pov:"Pick #17 · Portland Fire. Out of Germany. Developed through the German national federation DBB Women. No NCAA program, no Power Five system. European basketball built her into a first-round pick." },
-  { id:'prosper',   name:'C. Prosper',       coach:'ivey',   pos:'SG',    posGroup:'G', proj:19,
-    pov:"Pick #19 · Washington Mystics. Niele Ivey played at Notre Dame, won at the Memphis Grizzlies, and came back to coach. Prosper is Canadian developed through both Notre Dame and Canada Basketball. International pipelines and elite college coaching in one card." },
-  { id:'lattimore', name:'L. Lattimore',     coach:'yo',     pos:'C',     posGroup:'C', proj:21,
-    pov:"Pick #21 · Chicago Sky. One of Coach Yo's Team 51 seniors at Ole Miss. Yolett McPhee-McCuin developed her into a first-round pick in the same season she developed Cotie McMahon. Two pros from one Ole Miss roster. #NoCeilings." },
-  { id:'key',       name:'Teonni Key',       coach:'brooks', pos:'C',     posGroup:'C', proj:22,
-    pov:"Pick #22 · Toronto Tempo. Kenny Brooks built the Kentucky environment that developed Key into a first-round pick. The Tempo's first-ever draft class includes a Kentucky center — the pipeline from Lexington to Canada runs through the coaching staff that believed in her." },
-  { id:'jackson_a', name:'Ashlon Jackson',   coach:'lawson',  pos:'SG',    posGroup:'G', proj:23,
-    pov:"Pick #23 · Golden State Valkyries. ACC Tournament MVP at Duke. Kara Lawson — the only active D1 HC to play in a Final Four, win a WNBA title, and win Olympic gold developed her. Kyra Elzy, former Kentucky HC, on staff. Jackson's clutch gene was built in that room." },
-  { id:'pissott',   name:'J. Pissott',       coach:'ralph',   pos:'PF',    posGroup:'F', proj:25,
-    pov:"Pick #25 · Indiana Fever. Shea Ralph rebuilt Vanderbilt into a program that produces first-round picks. Pissott's elite shooting (42%+ from three) was developed in Nashville. Ralph's vision is showing up on draft boards." },
-  { id:'shiels',    name:'Saffron Shiels',   coach:'intl',    pos:'G',     posGroup:'G', proj:26,
-    pov:"Pick #26 · Toronto Tempo. Out of Australia — Townsville Fire. Developed through Basketball Australia's national system. She joins Iyana Martin and Frieda Bühner as international players drafted tonight who never played a minute of NCAA basketball." },
-  { id:'pitrat',    name:'I. Pitrat Granel', coach:'intl',    pos:'F',     posGroup:'F', proj:27,
-    pov:"Pick #27 · Phoenix Mercury. International prospect. Developed through European club basketball. The global pipeline delivers again." },
-  { id:'nevar',     name:'Indya Nivar',      coach:'banghart',pos:'G',     posGroup:'G', proj:28,
-    pov:"Pick #28 · Atlanta Dream. UNC. Named to the Naismith Defensive Player of the Year watchlist. Courtney Banghart built an elite defender in Chapel Hill. The coaching tree builds pros who stop the ball." },
-  { id:'barker',    name:'Janiah Barker',    coach:'caldwell',pos:'PF',    posGroup:'F', proj:29,
-    pov:"Pick #29 · Las Vegas Aces. Tennessee. Kim Caldwell inherited a program in flux and still produced a first-round pick. Barker transferred from UCLA and Tennessee the staff that received her shaped her draft stock." },
-  { id:'lpbuggs',   name:'D. LPage-Buggs',  coach:'collen',  pos:'PF',    posGroup:'F', proj:30,
-    pov:"Pick #30 · Washington Mystics. Baylor under Nicki Collen — a former WNBA head coach who brought pro-level systems thinking to college. Littlepage-Buggs' athleticism and versatility are Collen's fingerprints." },
-  { id:'spearman',  name:'Zee Spearman',    coach:'caldwell',pos:'G',     posGroup:'G', proj:31,
-    pov:"Pick #31 · Dallas Wings. Tennessee. Two Vols drafted tonight — Barker and Spearman. Kim Caldwell's staff built a pipeline in just two seasons at Knoxville. That's the unsung story." },
-  { id:'morgan',    name:'Tonie Morgan',    coach:'brooks',  pos:'PG',    posGroup:'G', proj:32,
-    pov:"Pick #32 · Chicago Sky. Kentucky PG under Kenny Brooks. Georgia Tech transfer who maximized her final season. 13.8 pts, 7.9 ast. The floor general the league wanted." },
-  { id:'williams_s',name:'Serah Williams',  coach:'auriemma',pos:'F',     posGroup:'F', proj:33,
-    pov:"Pick #33 · Connecticut Sun. UConn. Transferred from Wisconsin and thrived under Auriemma's staff. Chris Dailey and Tonya Cardoza helped her find her game. Another Husky pro." },
-  { id:'harmon',    name:'Rori Harmon',     coach:'schaefer',pos:'PG',    posGroup:'G', proj:34,
-    pov:"Pick #34 · Washington Mystics. Texas. The greatest point guard in Longhorns history — only player in NCAA history with 1,500+ pts, 900+ ast, 600+ reb, 350+ stl. Vic Schaefer built her into the most complete PG in women's basketball." },
-  { id:'hassett',   name:'Amelia Hassett',  coach:'brooks',   pos:'G',     posGroup:'G', proj:35,
-    pov:"Pick #35 · LA Sparks. Kentucky / Australia. Kenny Brooks developed her in Lexington. Two Wildcats drafted tonight Teonni Key and Amelia Hassett. One program. Two pros." },
-  { id:'cdunn',     name:'C. Dunn',         coach:'intl',     pos:'G',     posGroup:'G', proj:36,
-    pov:"Pick #36 · Toronto Tempo. Australia / Davidson. Mid-major to the pros. The coaching staff at Davidson believed in her before the WNBA did." },
-  { id:'bigby',     name:'Taylor Bigby',    coach:'pebley',   pos:'G',     posGroup:'G', proj:37,
-    pov:"Pick #37 · Toronto Tempo. TCU. Mark Campbell and Xavier Lopez developed her into a pro-ready guard. She was part of the Big 12 championship program that changed TCU women's basketball forever." },
-  { id:'tanaka',    name:'K. Tanaka',       coach:'intl',     pos:'G',     posGroup:'G', proj:38,
-    pov:"Pick #38 · Golden State Valkyries. Japan national team. Developed entirely through Japanese club basketball and the FIBA system. The WNBA's global reach just hit the Pacific." },
-  { id:'vanslooten',name:'G. VanSlooten',   coach:'fralick',  pos:'PF',    posGroup:'F', proj:39,
-    pov:"Pick #39 · Seattle Storm. Michigan State under Robyn Fralick. Fralick has rebuilt the Spartans into a program the WNBA notices. VanSlooten's size and versatility are the proof." },
-  { id:'timmons',   name:'J. Timmons',      coach:'curry',    pos:'G',     posGroup:'G', proj:40,
-    pov:"Pick #40 · Indiana Fever. Alabama under Kristy Curry. Transferred from NC State and found her game in Tuscaloosa 16.3 PPG, All-SEC. A change of scenery and the right coaching staff made her draftable." },
-  { id:'puch',      name:'M. Puch',         coach:'intl',     pos:'F',     posGroup:'F', proj:41,
-    pov:"Pick #41 · New York Liberty. Australia. Another international pick. The global pipeline runs through every round of this draft." },
-  { id:'renyi',     name:'E. Rényi',        coach:'intl',     pos:'F',     posGroup:'F', proj:42,
-    pov:"Pick #42 · Phoenix Mercury. Hungary. European club basketball developing a WNBA pick. The coaching tree has no borders and no ceiling." },
-  { id:'kran',      name:'Keira Ran',       coach:'intl',     pos:'G',     posGroup:'G', proj:43,
-    pov:"Pick #43 · Atlanta Dream. China. Developed through the Chinese national basketball system. Three continents drafted tonight North America, Europe, and now Asia." },
-  { id:'obi',       name:'Jordan Obi',      coach:'brooks',   pos:'F',     posGroup:'F', proj:44,
-    pov:"Pick #44 · Las Vegas Aces. Kentucky. Kenny Brooks' third draftee tonight Teonni Key, Amelia Hassett, now Jordan Obi. Three pros from one program. That's a coaching staff doing its job." },
-  { id:'lwhite',    name:'Lani White',      coach:'roberts',  pos:'G',     posGroup:'G', proj:45,
-    pov:"Pick #45 · Minnesota Lynx. Utah under Lynne Roberts. The last pick of the 2026 WNBA Draft. She'll wear that number with pride. Every pick in this class had a coach who believed in them first." },
+  // PERIMETER
+  { id:'fudd',   name:'Azzi Fudd',           coach:'auriemma',pos:'SG', posGroup:'G', pick:1,
+    stat:'117 made threes at 44.7% for the season. Led the nation. Three knee surgeries. Still got here.' },
+  { id:'miles',  name:'Olivia Miles',         coach:'campbell',pos:'PG', posGroup:'G', pick:2,
+    stat:'Active D1 leader in career assists (654) and assists per game (6.5). The most creative passer in this class.' },
+  { id:'rice',   name:'Kiki Rice',            coach:'close',   pos:'PG', posGroup:'G', pick:6,
+    stat:'2.55 assist-to-turnover ratio. 99th percentile in D1. 143 career games. She protects the ball like a professional.' },
+  { id:'martin', name:'I. Martin Carrion',    coach:'intl',    pos:'G',  posGroup:'G', pick:7,
+    stat:'No NCAA stats. No American college system. Built by the Spanish national federation. Not an invitee. Didn\'t need to be.' },
+  { id:'flaujae',name:"Flau'Jae Johnson",    coach:'mulkey',  pos:'SG', posGroup:'G', pick:8,
+    stat:'2,000 career points at LSU. Among those who outscored her in Tiger history: Seimone Augustus. Sylvia Fowles. Both WNBA stars.' },
+  { id:'rjohn',  name:'Raven Johnson',        coach:'staley',  pos:'G',  posGroup:'G', pick:10,
+    stat:'128-7 record with her on the floor. 94.2% win rate. Three Final Fours. The numbers tell the story.' },
+  { id:'mair',   name:'Taina Mair',           coach:'lawson',  pos:'G',  posGroup:'G', pick:14,
+    stat:'11.4 PPG, 5.5 APG, 1.9 SPG. 2026 ACC Tournament MVP. 1,000 career points and 500 career assists at Duke.' },
+  { id:'kneep',  name:'Gianna Kneepkens',    coach:'close',   pos:'SG', posGroup:'G', pick:15,
+    stat:'50-40-90 season: 51.8% FG, 44.2% from three, 95.2% FT. One of the two best shooters in this draft class.' },
+  { id:'legw',   name:'C. Leger-Walker',      coach:'close',   pos:'PG', posGroup:'G', pick:18,
+    stat:'Close called her like having another coach on the court. Sat out a full season rehabbing an ACL. Came back. Won a national title.' },
+  { id:'latson', name:"Ta'Niya Latson",       coach:'staley',  pos:'SG', posGroup:'G', pick:20,
+    stat:'25.2 PPG at FSU the year before. National scoring leader. Broke the ACC freshman scoring record. Two schools, one elite career.' },
+  { id:'ajack',  name:'Ashlon Jackson',       coach:'lawson',  pos:'SG', posGroup:'G', pick:23,
+    stat:'2026 ACC Tournament MVP. Duke beat three teams they had lost to in the regular season to win the conference title.' },
+  { id:'gray',   name:'Chance Gray',          coach:'mcguff',  pos:'G',  posGroup:'G', pick:24,
+    stat:'14.7 PPG, 85 made threes at 40.5% from three. A four year journey across two schools, ending in the WNBA.' },
+  { id:'pissott',name:'Justine Pissott',      coach:'ralph',   pos:'SG', posGroup:'G', pick:25,
+    stat:'42.2% from three on 225 attempts. The best shooter in the country per Shea Ralph. First Vanderbilt player drafted since 2014.' },
+  { id:'jaquez', name:'Gabriela Jaquez',      coach:'close',   pos:'SG', posGroup:'G', pick:5,
+    stat:'21 points, 10 rebounds, 5 assists in the national championship game. She did not stop when the job was halfway done.' },
+  { id:'morgan', name:'Tonie Morgan',         coach:'brooks',  pos:'PG', posGroup:'G', pick:32,
+    stat:'286 assists. That is the Kentucky single-season program assist record. Set it in her only season as a Wildcat.' },
+  { id:'harmon', name:'Rori Harmon',          coach:'schaefer',pos:'PG', posGroup:'G', pick:34,
+    stat:'Only player in NCAA history with 1,500+ points, 900+ assists, 600+ rebounds and 350+ steals. That combination has never been done. By anyone.' },
+  { id:'dunn',   name:'Charlise Dunn',        coach:'intl',    pos:'SG', posGroup:'G', pick:36,
+    stat:'15.3 PPG, 7.4 RPG. A-10 First Team. From Davidson. Mid major to WNBA. 1,134 career points for the Wildcats.' },
+  { id:'bigby',  name:'Taylor Bigby',         coach:'campbell',pos:'SG', posGroup:'G', pick:37,
+    stat:'8.2 PPG with 65 made threes at TCU. Best season of her career. Third pick of the night from the same program.' },
 ];
 
-PLAYERS.forEach(p => { picks[p.id] = p.proj; });
-
-const ZONES = [
-  { id:'C', tag:'Paint',     sub:'Centers'  },
-  { id:'F', tag:'Wing',      sub:'Forwards' },
-  { id:'G', tag:'Perimeter', sub:'Guards'   },
-];
-
-const byPos = { C:[], F:[], G:[] };
-PLAYERS.forEach(p => byPos[p.posGroup].push(p));
-
-// ── TOOLTIP ───────────────────────────────────────────────────────────────
-const tip      = document.getElementById('tip');
-const tipCoach = document.getElementById('tip-coach');
-const tipName  = document.getElementById('tip-name');
-const tipMeta  = document.getElementById('tip-meta');
-const tipPov   = document.getElementById('tip-pov');
-let tipTimer   = null;
+// ── TOOLTIP
+const tip         = document.getElementById('tip');
+const tipHC       = document.getElementById('tip-hc');
+const tipSchool   = document.getElementById('tip-school');
+const tipContext  = document.getElementById('tip-context');
+const tipStaff    = document.getElementById('tip-staff');
+const tipName     = document.getElementById('tip-name');
+const tipMeta     = document.getElementById('tip-meta');
+const tipPov      = document.getElementById('tip-pov');
+let tipTimer      = null;
 
 function showTip(p, coach, x, y) {
-  if (editMode) return;
-  const pickNum = picks[p.id];
-  tipCoach.textContent = coach.id === 'intl'
-    ? 'International'
-    : `${coach.label} · ${coach.program}`;
-  tipCoach.style.color = coach.color;
-  tipName.textContent  = p.name;
-  tipMeta.textContent  = pickNum
-    ? `Pick #${pickNum} · ${p.pos}`
-    : `Draft Invitee · ${p.pos}`;
-  tipPov.textContent   = p.pov;
-  // Constrain: never below 80px from bottom, never right of screen
-  const lx = Math.min(x + 16, window.innerWidth - 246);
-  const maxTop = window.innerHeight - 220;
-  const ty = Math.min(Math.max(y - 10, 60), maxTop);
+  tipHC.textContent      = `HC: ${coach.name}`;
+  tipHC.style.color      = coach.color;
+  tipSchool.textContent  = `School: ${coach.program}`;
+  tipSchool.style.color  = coach.color;
+  tipContext.textContent = coach.pipelineStat || '';
+  tipContext.style.color = coach.color;
+  tipStaff.textContent   = coach.staff || '';
+  tipName.textContent    = p.name;
+  tipMeta.textContent    = `Pick ${p.pick} · ${p.pos}`;
+  tipPov.textContent     = p.stat;
+  const lx = Math.min(x + 16, window.innerWidth  - 276);
+  const ty = Math.min(y - 10, window.innerHeight - 260);
   tip.style.left    = lx + 'px';
-  tip.style.top     = ty  + 'px';
-  tip.style.display = 'block';
+  tip.style.top     = Math.max(ty, 8) + 'px';
+  tip.style.opacity = '1';
   clearTimeout(tipTimer);
 }
 
 function hideTip(immediate) {
   clearTimeout(tipTimer);
-  if (immediate) {
-    tip.style.display = 'none';
-  } else {
-    tipTimer = setTimeout(() => { tip.style.display = 'none'; }, 80);
-  }
+  if (immediate) { tip.style.opacity = '0'; }
+  else { tipTimer = setTimeout(() => { tip.style.opacity = '0'; }, 80); }
 }
 
 document.addEventListener('click',      e => { if (!e.target.closest('.pcard')) hideTip(true); });
 document.addEventListener('touchstart', e => { if (!e.target.closest('.pcard')) hideTip(true); }, { passive: true });
-window.addEventListener('scroll', () => hideTip(true), { passive: true });
 
-// ── EDIT MODE ─────────────────────────────────────────────────────────────
-let editMode = false;
+// ── BUILD ZONES
+const ZONES = [
+  { id:'C', tag:'Paint',     sub:'Centers + Post Forwards' },
+  { id:'F', tag:'Wing',      sub:'Forwards + Wings'        },
+  { id:'G', tag:'Perimeter', sub:'Guards'                  },
+];
 
-document.getElementById('edit-btn').addEventListener('click', () => {
-  editMode = !editMode;
-  document.getElementById('edit-btn').classList.toggle('active', editMode);
-  hideTip(true);
+const byPos = { C:[], F:[], G:[] };
+PLAYERS.forEach(p => byPos[p.posGroup].push(p));
+Object.keys(byPos).forEach(k => byPos[k].sort((a,b) => a.pick - b.pick));
 
-  document.querySelectorAll('.pcard').forEach(card => {
-    card.classList.toggle('edit-mode', editMode);
-    card.style.cursor = editMode ? 'text' : 'pointer';
-
-    if (!editMode) {
-      const input = card.querySelector('.pcard-edit-input');
-      const numEl = card.querySelector('.pcard-num');
-      const badge = card.querySelector('.pcard-badge');
-      if (input && numEl) {
-        const val = parseInt(input.value);
-        const pid = card.dataset.pid;
-        if (!isNaN(val) && val > 0) {
-          picks[pid] = val;
-          numEl.textContent = val;
-          numEl.style.display = '';
-          if (badge) badge.style.display = 'none';
-        }
-      }
-    }
-  });
-});
-
-// ── BUILD ZONES ───────────────────────────────────────────────────────────
 const zonesEl = document.getElementById('zones');
 
 ZONES.forEach(zone => {
@@ -809,60 +665,36 @@ ZONES.forEach(zone => {
   hdr.innerHTML = `<span class="zone-tag">${zone.tag}</span><span class="zone-sub">${zone.sub}</span>`;
   section.appendChild(hdr);
 
-  const cards = document.createElement('div');
-  cards.className = 'cards';
+  const cardsEl = document.createElement('div');
+  cardsEl.className = 'cards';
 
   byPos[zone.id].forEach(p => {
-    const coach = COACHES.find(c => c.id === p.coach);
+    const coach = COACHES.find(c => c.id === p.coach) || COACHES[COACHES.length - 1];
     const card  = document.createElement('div');
     card.className = 'pcard';
     card.dataset.posGroup = p.posGroup;
     card.dataset.coachId  = p.coach;
     card.dataset.pid      = p.id;
 
-    // 1. Top color bar
     const bar = document.createElement('span');
     bar.className = 'pcard-bar';
     bar.style.background = coach.color;
     card.appendChild(bar);
 
-    // 2. Number / invitee — fixed height container
     const topArea = document.createElement('div');
     topArea.className = 'pcard-top';
-
-    const input = document.createElement('input');
-    input.className = 'pcard-edit-input';
-    input.type = 'number';
-    input.min  = '1';
-    input.max  = '45';
-    input.placeholder = '#';
-    topArea.appendChild(input);
-
     const num = document.createElement('div');
     num.className = 'pcard-num';
     num.style.color = coach.color;
-
-    if (p.proj) {
-      num.textContent = p.proj;
-      input.value = p.proj;
-      topArea.appendChild(num);
-    } else {
-      const badge = document.createElement('div');
-      badge.className = 'pcard-badge';
-      badge.textContent = 'Invitee';
-      topArea.appendChild(badge);
-      num.style.display = 'none';
-      topArea.appendChild(num);
-    }
+    num.textContent = p.pick;
+    topArea.appendChild(num);
     card.appendChild(topArea);
 
-    // 3. Name — single line, no wrap
     const name = document.createElement('div');
     name.className = 'pcard-name';
     name.textContent = p.name;
     card.appendChild(name);
 
-    // 4. Position
     const posRow = document.createElement('div');
     posRow.className = 'pcard-pos-row';
     const pos = document.createElement('span');
@@ -871,95 +703,59 @@ ZONES.forEach(zone => {
     posRow.appendChild(pos);
     card.appendChild(posRow);
 
-    // 5. Coach / program attribution
     const coachLine = document.createElement('div');
     coachLine.className = 'pcard-coach';
     coachLine.style.color = coach.color;
     coachLine.textContent = coach.id === 'intl' ? 'International' : coach.program;
     card.appendChild(coachLine);
 
-    // Input events
-    input.addEventListener('input', () => {
-      const val = parseInt(input.value);
-      if (!isNaN(val) && val > 0) {
-        picks[p.id] = val;
-        num.textContent = val;
-        num.style.color = coach.color;
-      }
-    });
-    input.addEventListener('click', e => e.stopPropagation());
+    // Option 5: stat
+    const statEl = document.createElement('div');
+    statEl.className = 'pcard-stat';
+    statEl.textContent = p.stat;
+    card.appendChild(statEl);
 
-    // Mouse tooltip
     card.addEventListener('mousemove', e => {
-      if (editMode) return;
       clearTimeout(tipTimer);
       showTip(p, coach, e.clientX, e.clientY);
     });
     card.addEventListener('mouseleave', () => hideTip(false));
 
-    // Touch tooltip — tap to show, tap elsewhere or re-tap to hide
     let isTipOpen = false;
     card.addEventListener('touchend', e => {
-      if (editMode) return;
       e.preventDefault();
       const t = e.changedTouches[0];
       if (isTipOpen) {
-        hideTip(true);
-        isTipOpen = false;
+        hideTip(true); isTipOpen = false;
       } else {
         showTip(p, coach,
-          Math.min(t.clientX, window.innerWidth - 246),
-          Math.max(t.clientY - 120, 10)
+          Math.min(t.clientX, window.innerWidth - 276),
+          Math.max(t.clientY - 140, 10)
         );
         isTipOpen = true;
         clearTimeout(tipTimer);
-        tipTimer = setTimeout(() => { hideTip(true); isTipOpen = false; }, 3200);
+        tipTimer = setTimeout(() => { hideTip(true); isTipOpen = false; }, 3800);
       }
     });
 
-    cards.appendChild(card);
+    cardsEl.appendChild(card);
   });
 
-  section.appendChild(cards);
+  section.appendChild(cardsEl);
   zonesEl.appendChild(section);
 });
 
-// ── LIVE INDICATOR ────────────────────────────────────────────────────────
-// Draft: April 13 2026, 7:00 PM – 9:30 PM Eastern Time
-const DRAFT_START = new Date('2026-04-13T23:00:00Z'); // 7 PM ET = 23:00 UTC
-const DRAFT_END   = new Date('2026-04-14T01:30:00Z'); // 9:30 PM ET = 01:30 UTC next day
-
-function updateLivePill() {
-  const now  = new Date();
-  const pill = document.getElementById('live-pill');
-  const dot  = document.getElementById('site-dot');
-  const isLive = now >= DRAFT_START && now <= DRAFT_END;
-  if (isLive) {
-    pill.textContent = 'Live';
-    pill.classList.add('active');
-    dot.classList.add('active');
-  } else {
-    pill.classList.remove('active');
-    dot.classList.remove('active');
-  }
-}
-
-updateLivePill();
-setInterval(updateLivePill, 30000); // recheck every 30 seconds
-
-// ── FILTERS ───────────────────────────────────────────────────────────────
-let activePos    = 'all';
-let activeSchool = 'all';
+// ── FILTERS
+let activePos = 'all', activeSchool = 'all';
 
 function applyFilters() {
   document.querySelectorAll('.pcard').forEach(card => {
     const pg = card.dataset.posGroup;
     const ci = card.dataset.coachId;
-    const posOk    = activePos === 'all'    || pg === activePos;
+    const posOk    = activePos    === 'all' || pg === activePos;
     const schoolOk = activeSchool === 'all' || ci === activeSchool;
     card.classList.toggle('hidden', !(posOk && schoolOk));
   });
-
   document.querySelectorAll('.zone').forEach(zone => {
     const visible = zone.querySelectorAll('.pcard:not(.hidden)').length;
     zone.classList.toggle('zone-hidden', visible === 0);
