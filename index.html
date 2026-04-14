@@ -600,6 +600,8 @@ const COACHES = [
   { id:'pebley',   name:'Mark Campbell',        label:'Mark Campbell',       program:'TCU',            color:'#4D1979' },
   { id:'yo',       name:'Yolett McPhee-McCuin', label:'Yolett McPhee-McCuin',program:'Ole Miss',       color:'#CE1126' },
   { id:'lawson',   name:'Kara Lawson',          label:'Kara Lawson',         program:'Duke',           color:'#003087' },
+  { id:'ivey',     name:'Niele Ivey',           label:'Niele Ivey',          program:'Notre Dame',     color:'#0C2340' },
+  { id:'brooks',   name:'Kenny Brooks',         label:'Kenny Brooks',        program:'Kentucky',       color:'#0033A0' },
   { id:'intl',     name:'International',        label:'International',       program:'No NCAA',        color:'#888888' },
 ];
 
@@ -611,14 +613,14 @@ const PLAYERS = [
     pov:"Projected #1 overall. 19-year-old center from Spain. Never played in the NCAA. Her presence at the top of this board signals the WNBA has become a global league." },
   { id:'betts',     name:'Lauren Betts',    coach:'close',   pos:'C',     posGroup:'C', proj:4,
     pov:"NCAA Tournament MOP. Big Ten Player of the Year. 17.1 PPG, 8.8 RPG. Close built an offense around her strengths across three seasons at UCLA. The result is a top-4 pick." },
-  { id:'okot',      name:'Madina Okot',     coach:'staley',  pos:'C',     posGroup:'C', proj:null,
+  { id:'okot',      name:'Madina Okot',     coach:'staley',  pos:'C',     posGroup:'C', proj:13,
     pov:"A Basketball Without Borders discovery from Kenya. Staley developed her into a draft-worthy prospect. The pipeline from Columbia runs further than American courts." },
 
   // FORWARDS
   { id:'angloma',   name:'Nell Angloma',    coach:'intl',    pos:'SF',    posGroup:'F', proj:9,
     pov:"5-11 forward from France. Already has professional experience at Lattes Montpellier. Not a prospect arriving at the league — already a player." },
   { id:'iyana',     name:'Iyana Martin',    coach:'intl',    pos:'G',     posGroup:'G', proj:7,
-    pov:"Pick #7 · Portland Fire. Spanish international. Was not one of the 15 invitees tonight she didn't need to be. Developed through European club basketball and Spain's national federation. The WNBA's global era is not coming. It's here." },
+    pov:"Pick #7 · Portland Fire. Spanish international. Was not one of the 15 invitees tonight — she didn't need to be. Developed through European club basketball and Spain's national federation. The WNBA's global era is not coming. It's here." },
   { id:'mair',      name:'Taina Mair',      coach:'lawson',  pos:'PG',    posGroup:'G', proj:14,
     pov:"Duke PG under Kara Lawson — the only active D1 head coach to play in a Final Four, win a WNBA championship, and win an Olympic gold medal. Mair was developed by a woman who has done everything the game offers. Kyra Elzy on staff: former Kentucky HC who recruited at an elite level. This is what a loaded coaching staff produces." },
   { id:'dugalic',   name:'Angela Dugalić',  coach:'close',   pos:'PF',    posGroup:'F', proj:9,
@@ -630,7 +632,7 @@ const PLAYERS = [
 
   // GUARDS
   { id:'fudd',      name:'Azzi Fudd',         coach:'auriemma',pos:'SG',    posGroup:'G', proj:1,
-    pov:"Pick #1 · Dallas Wings. The 7th UConn Husky drafted #1 overall. Named after 1996 Olympic gold medalist Jennifer Azzi her mother's favorite player. Chris Dailey believed in her through every injury. 40 seasons. This is what it looks like." },
+    pov:"Pick #1 · Dallas Wings. The 7th UConn Husky drafted #1 overall. Named after 1996 Olympic gold medalist Jennifer Azzi — her mother's favorite player. Chris Dailey believed in her through every injury. 40 seasons. This is what it looks like." },
   { id:'miles',     name:'Olivia Miles',      coach:'pebley',  pos:'PG',    posGroup:'G', proj:3,
     pov:"Skipped the draft last year when projected top-3. Transferred from Notre Dame to TCU and made Campbell's program the right stage to prove herself." },
   { id:'rice',      name:'Kiki Rice',         coach:'close',   pos:'PG',    posGroup:'G', proj:5,
@@ -644,7 +646,19 @@ const PLAYERS = [
   { id:'jaquez',    name:'Gabriela Jaquez',   coach:'close',   pos:'SG/SF', posGroup:'G', proj:11,
     pov:"21 points and 10 rebounds in the national title game. 53.9% FG, 39.0% from three. Jaime Jaquez Jr.'s sister the family knows how to compete at the highest level." },
   { id:'johnson_r', name:'Raven Johnson',     coach:'staley',  pos:'G',     posGroup:'G', proj:11,
-    pov:"One of the most tenacious defenders Staley has developed. A Georgia transfer who became a cornerstone of SC's identity relentless on the ball, selfless off it." },
+    pov:"One of the most tenacious defenders Staley has developed. A Georgia transfer who became a cornerstone of SC's identity — relentless on the ball, selfless off it." },
+  { id:'leger',     name:'C. Leger-Walker',  coach:'close',   pos:'PG',    posGroup:'G', proj:18,
+    pov:"Pick #18 · Connecticut Sun. The 6th UCLA Bruin drafted tonight the Bruins are the first program ever to have six players selected in one WNBA Draft. Tony Newnan's fingerprints are on every single one." },
+  { id:'buhner',    name:'Frieda Bühner',    coach:'intl',    pos:'PF',    posGroup:'F', proj:17,
+    pov:"Pick #17 · Portland Fire. Out of Germany. Developed through the German national federation DBB Women. No NCAA program, no Power Five system. European basketball built her into a first-round pick." },
+  { id:'prosper',   name:'C. Prosper',       coach:'ivey',   pos:'SG',    posGroup:'G', proj:19,
+    pov:"Pick #19 · Washington Mystics. Niele Ivey played at Notre Dame, won at the Memphis Grizzlies, and came back to coach. Prosper is Canadian developed through both Notre Dame and Canada Basketball. International pipelines and elite college coaching in one card." },
+  { id:'lattimore', name:'L. Lattimore',     coach:'yo',     pos:'C',     posGroup:'C', proj:21,
+    pov:"Pick #21 · Chicago Sky. One of Coach Yo's Team 51 seniors at Ole Miss. Yolett McPhee-McCuin developed her into a first-round pick in the same season she developed Cotie McMahon. Two pros from one Ole Miss roster. #NoCeilings." },
+  { id:'key',       name:'Teonni Key',       coach:'brooks', pos:'C',     posGroup:'C', proj:22,
+    pov:"Pick #22 · Toronto Tempo. Kenny Brooks built the Kentucky environment that developed Key into a first-round pick. The Tempo's first-ever draft class includes a Kentucky center — the pipeline from Lexington to Canada runs through the coaching staff that believed in her." },
+  { id:'jackson_a', name:'Ashlon Jackson',   coach:'lawson', pos:'SG',    posGroup:'G', proj:23,
+    pov:"Pick #23 · Golden State Valkyries. ACC Tournament MVP at Duke. Kara Lawson — the only active D1 HC to play in a Final Four, win a WNBA title, and win Olympic gold developed her. Kyra Elzy, former Kentucky HC, on staff. Jackson's clutch gene was built in that room." },
 ];
 
 PLAYERS.forEach(p => { picks[p.id] = p.proj; });
