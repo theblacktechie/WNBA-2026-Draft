@@ -24,7 +24,7 @@ html, body {
   overscroll-behavior-y: none;
 }
 .header {
-  padding: 28px 24px 16px;
+  padding: 28px 24px 6px;
   border-top: 2.5px solid var(--orange);
   text-align: center;
 }
@@ -105,7 +105,7 @@ html, body {
   scrollbar-width: none;
   border-bottom: 1px solid var(--rule);
   padding: 0 24px;
-  margin-top: 14px;
+  margin-top: 6px;
 }
 .tabs::-webkit-scrollbar { display: none; }
 .tab {
@@ -283,8 +283,8 @@ html, body {
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.12s;
-  max-width: 260px;
-  width: 260px;
+  max-width: 280px;
+  width: 280px;
   z-index: 500;
 }
 /* Option 2: pipeline header as 3 separate lines */
@@ -303,21 +303,47 @@ html, body {
   line-height: 1.7;
 }
 .tip-context {
-  font-size: 8.5px;
+  font-size: 7.5px;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  line-height: 1.5;
+  line-height: 1.45;
   padding-bottom: 7px;
   border-bottom: 1px solid var(--rule);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
-.tip-staff {
+/* Key Staff / Developer / Development Path — 3-line structure */
+.tip-staff-label {
   font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  font-weight: 800;
+  color: var(--orange);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 5px;
+  margin-bottom: 3px;
+}
+.tip-staff-name {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+.tip-staff-role {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--mid);
+  margin-top: 2px;
+  line-height: 1.3;
+}
+.tip-staff-note {
+  font-size: 8px;
+  font-weight: 400;
+  font-style: italic;
+  color: #777;
+  margin-top: 2px;
   margin-bottom: 8px;
   line-height: 1.4;
 }
@@ -353,11 +379,12 @@ html, body {
   color: var(--ink);
 }
 @media (max-width: 640px) {
-  .header { padding: 20px 16px 12px; }
+  .header { padding: 20px 16px 4px; }
+  .eyebrow { font-size: 7.5px; letter-spacing: 0.16em; white-space: nowrap; }
   .deck { white-space: normal; font-size: 9px; max-width: 100%; }
   .deck-hover { font-size: 8.5px; margin-top: 4px; }
   .controls { padding: 3px 16px 0; }
-  .tabs { margin-top: 10px; }
+  .tabs { margin-top: 6px; }
   .tab { font-size: 11px; padding: 10px 14px; }
   .zone { padding: 10px 16px 20px; }
   .zone[data-zone="C"] { padding-top: 12px; }
@@ -398,6 +425,9 @@ html, body {
       <option value="ralph">Vanderbilt</option>
       <option value="ivey">Notre Dame</option>
       <option value="mcguff">Ohio State</option>
+      <option value="davidson">Davidson</option>
+      <option value="utah">Utah</option>
+      <option value="alabama">Alabama</option>
       <option value="intl">International</option>
     </select>
     <span class="select-arrow">▼</span>
@@ -441,192 +471,415 @@ html, body {
 </div>
 
 <div class="tip" id="tip">
-  <div class="tip-hc"      id="tip-hc"></div>
-  <div class="tip-school"  id="tip-school"></div>
-  <div class="tip-context" id="tip-context"></div>
-  <div class="tip-staff"   id="tip-staff"></div>
-  <div class="tip-name"    id="tip-name"></div>
-  <div class="tip-meta"    id="tip-meta"></div>
-  <div class="tip-pov"     id="tip-pov"></div>
+  <div class="tip-hc"         id="tip-hc"></div>
+  <div class="tip-school"     id="tip-school"></div>
+  <div class="tip-context"    id="tip-context"></div>
+  <div class="tip-staff-label" id="tip-staff-label"></div>
+  <div class="tip-staff-name"  id="tip-staff-name"></div>
+  <div class="tip-staff-role"  id="tip-staff-role"></div>
+  <div class="tip-staff-note"  id="tip-staff-note"></div>
+  <div class="tip-name"        id="tip-name"></div>
+  <div class="tip-meta"        id="tip-meta"></div>
+  <div class="tip-pov"         id="tip-pov"></div>
 </div>
 
 <script>
+// ── COACHES (program-level pipeline data only — staff is now per-player)
 const COACHES = [
   { id:'auriemma', name:'Geno Auriemma',        program:'UConn',          color:'#002868',
-    pipelineStat:'52 WNBA draftees, 7 No. 1 overall picks, most in history',
-    staff:'Chris Dailey, Assoc. HC, 40 years building UConn pros' },
+    pipelineStat:'52 WNBA draftees, 7 No. 1 overall picks, most in history' },
   { id:'staley',   name:'Dawn Staley',           program:'South Carolina', color:'#73000A',
-    pipelineStat:'21 WNBA picks, 11 first rounders, 2 No. 1 overalls',
-    staff:'Lisa Boyer, Assoc. HC, architect of the Gamecock system' },
+    pipelineStat:'21 WNBA picks, 11 first rounders, 2 No. 1 overalls' },
   { id:'close',    name:'Cori Close',            program:'UCLA',           color:'#2D68C4',
-    pipelineStat:'6 players drafted tonight, most from one program in WNBA draft history',
-    staff:'Tasha Brown, Assoc. HC, Michaela Onyenwere, Player Dev, 2021 WNBA Rookie of Year' },
+    pipelineStat:'6 players drafted tonight, most from one program in WNBA draft history' },
   { id:'mulkey',   name:'Kim Mulkey',            program:'LSU',            color:'#461D7C',
-    pipelineStat:'26 career WNBA picks, 19 at Baylor, 7 at LSU, Hall of Fame',
-    staff:'Bob Starkey, Assoc. HC, film sessions at 7:50am every weekday' },
+    pipelineStat:'26 career WNBA picks, 19 at Baylor, 7 at LSU, Hall of Fame' },
   { id:'campbell', name:'Mark Campbell',         program:'TCU',            color:'#4D1979',
-    pipelineStat:'5 WNBA first round picks in his career',
-    staff:'Xavier Lopez, Assoc. HC, built the international pipeline at TCU' },
+    pipelineStat:'15 career WNBA picks, 3 from TCU alone tonight' },
   { id:'yo',       name:'Yolett McPhee-McCuin', program:'Ole Miss',       color:'#CE1126',
-    pipelineStat:'5 career WNBA picks, 2 from the same team on the same night',
-    staff:'Joy Smith, Post Coach, WNBA alum, Duke grad, leads the charge for posts' },
+    pipelineStat:'5 career WNBA picks, 2 from the same team on the same night' },
   { id:'brooks',   name:'Kenny Brooks',          program:'Kentucky',       color:'#0033A0',
-    pipelineStat:'4 picks in year two, 2025 Sporting News National Coach of Year',
-    staff:'Kenny Brooks staff, first full class, 4 pros produced in year two' },
+    pipelineStat:'4 picks in year two, 2025 Sporting News National Coach of Year' },
   { id:'lawson',   name:'Kara Lawson',           program:'Duke',           color:'#003087',
-    pipelineStat:'First 2 WNBA picks of the Kara Era, USA Basketball HC',
-    staff:'Kara Lawson, 11 WNBA seasons, 2012 Olympic gold, coaches from having done it' },
+    pipelineStat:'First 2 WNBA picks of the Kara Era, USA Basketball HC' },
   { id:'schaefer', name:'Vic Schaefer',          program:'Texas',          color:'#BF5700',
-    pipelineStat:'6 career WNBA picks across MSU and Texas',
-    staff:'Vic Schaefer staff at Texas, defense first system built the pipeline' },
+    pipelineStat:'6 career WNBA picks across MSU and Texas' },
   { id:'caldwell', name:'Kim Caldwell',          program:'Tennessee',      color:'#E04A00',
-    pipelineStat:'First 2 WNBA picks of her Tennessee tenure',
-    staff:'Caldwell third year coaching in Division I, first two picks on the board' },
+    pipelineStat:'First 2 WNBA picks of her Tennessee tenure' },
   { id:'collen',   name:'Nicki Collen',          program:'Baylor',         color:'#154734',
-    pipelineStat:'5th career WNBA pick tonight, Former WNBA Coach of Year 2018',
-    staff:'Nicki Collen staff at Baylor, rebuilt the program after Mulkey departed' },
+    pipelineStat:'5th career WNBA pick tonight, Former WNBA Coach of Year 2018' },
   { id:'banghart', name:'Courtney Banghart',     program:'UNC',            color:'#4B9CD3',
-    pipelineStat:'7 seasons building this, Nivar is first Tar Heel to earn it',
-    staff:'Banghart staff at UNC, defense first culture produced a Naismith Defensive POY candidate' },
+    pipelineStat:'7 seasons building this, Nivar is the first Tar Heel to earn it' },
   { id:'fralick',  name:'Robyn Fralick',         program:'Michigan State', color:'#18453B',
-    pipelineStat:'VanSlooten is first WNBA pick of the Fralick era',
-    staff:'Fralick won 97.2% of games at Ashland before coming to MSU, she builds winners' },
+    pipelineStat:'VanSlooten is the first WNBA pick of the Fralick era' },
   { id:'ralph',    name:'Shea Ralph',            program:'Vanderbilt',     color:'#866D4B',
-    pipelineStat:'Pissott is first WNBA pick of the Ralph era, 7x national champion',
-    staff:'Shea Ralph, 13 seasons coaching at UConn, brought that culture to Nashville' },
+    pipelineStat:'Pissott is first WNBA pick of the Ralph era, 7x national champion' },
   { id:'ivey',     name:'Niele Ivey',            program:'Notre Dame',     color:'#0C2340',
-    pipelineStat:'Prosper is the 24th Notre Dame player ever drafted',
-    staff:'Niele Ivey, ND class of 2001, coaching the program you once played for' },
+    pipelineStat:'Prosper is the 24th Notre Dame player ever drafted' },
   { id:'mcguff',   name:'Kevin McGuff',          program:'Ohio State',     color:'#BB0000',
-    pipelineStat:'4 straight years sending players to the WNBA',
-    staff:'Kevin McGuff staff, 21st Buckeye drafted in program history' },
+    pipelineStat:'4 straight years sending players to the WNBA' },
+  { id:'davidson', name:'Davidson WBB Staff',    program:'Davidson',       color:'#C41230',
+    pipelineStat:'First WNBA pick in Davidson program history' },
+  { id:'utah',     name:'Lynne Roberts',         program:'Utah',           color:'#CC1100',
+    pipelineStat:'Utah Utes produced the last pick of the 2026 WNBA Draft' },
+  { id:'alabama',  name:'Alabama WBB Staff',     program:'Alabama',        color:'#9E1B32',
+    pipelineStat:'Alabama developed an NC State transfer into an All-SEC WNBA pick' },
   { id:'intl',     name:'International Dev',     program:'No NCAA',        color:'#4B5563',
-    pipelineStat:'No NCAA program, built by global club systems and national federations',
-    staff:'FIBA affiliated national federation and club development pipeline' },
+    pipelineStat:'No NCAA program, built by global club systems and national federations' },
 ];
 
+// ── PLAYERS — staff data is now player-specific
 const PLAYERS = [
-  // PAINT
+
+  // ── PAINT ──────────────────────────────────────────────────────────────
   { id:'fam',    name:'Awa Fam Thiam',      coach:'intl',    pos:'C',  posGroup:'C', pick:3,
-    stat:'No college stats. No NIL. No Power Five. Developed entirely by Valencia Basket and the Spanish federation. Pick No. 3.' },
+    stat:'No college stats. No NIL. No Power Five. Developed entirely by Valencia Basket and the Spanish federation. Pick No. 3.',
+    staffLabel:'Development Path',
+    staffName:'Valencia Basket / Spanish Federation (FEB)',
+    staffRole:'No NCAA Program',
+    staffNote:'Moved from Sant Adrià to Valencia Basket at 15. FEB national youth system built her into Pick No. 3 without a single NCAA game.' },
+
   { id:'betts',  name:'Lauren Betts',        coach:'close',   pos:'C',  posGroup:'C', pick:4,
-    stat:'100 blocks in a single Big Ten season. 1st in conference, 5th nationally. 64.8% career FG. 2026 Tournament MOP.' },
+    stat:'100 blocks in a single Big Ten season. 1st in conference, 5th nationally. 64.8% career FG. 2026 Tournament MOP.',
+    staffLabel:'Key Staff',
+    staffName:'Tony Newnan',
+    staffRole:'Associate Head Coach',
+    staffNote:'WBCA Division I Assistant of the Year 2024-25. Built the offensive system that turned Betts into a 64.8% career FG shooter and Tournament MOP.' },
+
   { id:'okot',   name:'Madina Okot',         coach:'staley',  pos:'C',  posGroup:'C', pick:13,
-    stat:'12.1 PPG, 10.6 RPG double-double average. Started playing basketball in 2020. Ceiling is very far away.' },
+    stat:'12.1 PPG, 10.6 RPG double-double average. Started playing basketball in 2020. Ceiling is very far away.',
+    staffLabel:'Key Staff',
+    staffName:'Winston Gandy',
+    staffRole:'Assistant Coach',
+    staffNote:'Former Washington Wizards player development coordinator. Six years of pro development experience applied to a prospect who started basketball in 2020.' },
+
   { id:'buhner', name:'Frieda Bühner',       coach:'intl',    pos:'PF', posGroup:'C', pick:17,
-    stat:'German national federation built this prospect. No NCAA. No Power Five path. Portland Fire pick No. 17.' },
+    stat:'German national federation built this prospect. No NCAA. No Power Five path. Portland Fire pick No. 17.',
+    staffLabel:'Development Path',
+    staffName:'German Basketball Federation (DBB)',
+    staffRole:'No NCAA Program',
+    staffNote:'DBB national youth academy and professional club system. No Power Five path needed.' },
+
   { id:'latt',   name:'Latasha Lattimore',   coach:'yo',      pos:'PF', posGroup:'C', pick:21,
-    stat:'74 total blocks. 2nd most in a single season in Ole Miss history. 2.1 BPG. Scored 28 points on 12-of-13 vs. No. 5 Vanderbilt in the SEC Tournament.' },
+    stat:'74 total blocks. 2nd most in a single season in Ole Miss history. 2.1 BPG. Scored 28 points on 12-of-13 vs. No. 5 Vanderbilt in the SEC Tournament.',
+    staffLabel:'Key Staff',
+    staffName:'Joy Smith',
+    staffRole:'Associate Coach',
+    staffNote:'WNBA alum, Duke grad. Official Ole Miss bio names her as the post developer. Lattimore\u2019s 2.1 BPG is her direct fingerprint.' },
+
   { id:'key',    name:'Teonni Key',          coach:'brooks',  pos:'PF', posGroup:'C', pick:22,
-    stat:'11.4 PPG, 7.9 RPG. First player to commit to Kenny Brooks after he was hired. Proof the system works from day one.' },
+    stat:'11.4 PPG, 7.9 RPG. First player to commit to Kenny Brooks after he was hired. Proof the system works from day one.',
+    staffLabel:'Developer',
+    staffName:'Kenny Brooks',
+    staffRole:'Head Coach',
+    staffNote:'First player to commit to Brooks when he arrived at Kentucky. She helped prove the system works from day one.' },
+
   { id:'dlpb',   name:'D. Littlepage-Buggs',coach:'collen',  pos:'PF', posGroup:'C', pick:30,
-    stat:'Only Big 12 player to average a double-double: 10.7 PPG, 10.1 RPG. Four straight years of All-Big 12 from freshman year.' },
+    stat:'Only Big 12 player to average a double-double: 10.7 PPG, 10.1 RPG. Four straight years of All-Big 12 from freshman year.',
+    staffLabel:'Developer',
+    staffName:'Nicki Collen',
+    staffRole:'Head Coach',
+    staffNote:'Four consecutive All-Big 12 seasons under Collen after Mulkey departed. The post pipeline was rebuilt around Littlepage-Buggs.' },
+
   { id:'swill',  name:'Serah Williams',      coach:'auriemma',pos:'C',  posGroup:'C', pick:33,
-    stat:'16.4 PPG, 2.3 BPG across three seasons at Wisconsin. Two time All-Big Ten. Transferred to UConn. Still heard her name called.' },
+    stat:'16.4 PPG, 2.3 BPG across three seasons at Wisconsin. Two time All-Big Ten. Transferred to UConn. Still heard her name called.',
+    staffLabel:'Key Staff',
+    staffName:'Jamelle Elliott',
+    staffRole:'Assistant Coach',
+    staffNote:'UConn alum 1992-96. Seven years back on staff focused on player development and strategy. Develops post players through the UConn standard.' },
+
   { id:'vans',   name:'Grace VanSlooten',    coach:'fralick', pos:'PF', posGroup:'C', pick:39,
-    stat:'15.5 PPG, leading scorer at MSU. Won FIBA AmeriCup gold with Team USA in 2025. Team captain, voted by her teammates.' },
+    stat:'15.5 PPG, leading scorer at MSU. Won FIBA AmeriCup gold with Team USA in 2025. Team captain, voted by her teammates.',
+    staffLabel:'Developer',
+    staffName:'Robyn Fralick',
+    staffRole:'Head Coach',
+    staffNote:'Fralick personally accompanied VanSlooten to USA Basketball AmeriCup trials. The most documented head coach player bond in this entire class.' },
+
   { id:'puoch',  name:'Manuela Puoch',       coach:'intl',    pos:'PF', posGroup:'C', pick:41,
-    stat:'Basketball Australia system. The Liberty close their draft with an international long term investment.' },
+    stat:'Basketball Australia system. The Liberty close their draft with an international long term investment.',
+    staffLabel:'Development Path',
+    staffName:'Basketball Australia / NBL1 North',
+    staffRole:'No NCAA Program',
+    staffNote:'Australian national federation and domestic league pipeline produced two picks in the 2026 draft.' },
+
   { id:'ratkai', name:'Eszter Ratkai',       coach:'intl',    pos:'PF', posGroup:'C', pick:42,
-    stat:'Hungarian national basketball federation. One of two Phoenix international selections tonight.' },
+    stat:'Hungarian national basketball federation. One of two Phoenix international selections tonight.',
+    staffLabel:'Development Path',
+    staffName:'Hungarian Basketball Federation (MKOSZ)',
+    staffRole:'No NCAA Program',
+    staffNote:'Hungarian national basketball system. One of two Phoenix international selections on draft night.' },
+
   { id:'obi',    name:'Jordan Obi',          coach:'brooks',  pos:'PF', posGroup:'C', pick:44,
-    stat:'Ruptured Achilles before ever playing at Kentucky. Missed the entire year. Came back and opened 2025-26 with 15 points, 15 rebounds in her debut.' },
+    stat:'Ruptured Achilles before ever playing at Kentucky. Missed the entire year. Came back and opened 2025-26 with 15 points, 15 rebounds in her debut.',
+    staffLabel:'Developer',
+    staffName:'Kenny Brooks',
+    staffRole:'Head Coach',
+    staffNote:'Obi ruptured her Achilles before playing a single Kentucky game. Brooks stood by her through rehab. She debuted with 15 points and 15 rebounds.' },
 
-  // WING
+  // ── WING ───────────────────────────────────────────────────────────────
   { id:'dugalic',name:'Angela Dugalić',      coach:'close',   pos:'PF', posGroup:'F', pick:9,
-    stat:'Big Ten Sixth Player of the Year. 9.0 PPG, 5.6 RPG off the bench. Represented Serbia at two Olympics before her senior year.' },
-  { id:'mcmahon',name:'Cotie McMahon',       coach:'yo',      pos:'SF', posGroup:'F', pick:11,
-    stat:'703 points in her one Ole Miss season. 4th most in program history for a single year. 19.5 PPG.' },
-  { id:'angloma',name:'Nell Angloma',        coach:'intl',    pos:'SF', posGroup:'F', pick:12,
-    stat:'Lattes Montpellier built a WNBA first round prospect before American media caught up. No NCAA. All world.' },
-  { id:'suarez', name:'Marta Suárez',        coach:'campbell',pos:'SF', posGroup:'F', pick:16,
-    stat:'17.1 PPG, 7.4 RPG in her one TCU season. Set the Big 12 single-season record for made threes by a post player (84). Six-year college journey.' },
-  { id:'prosper',name:'C. Prosper',          coach:'ivey',    pos:'SF', posGroup:'F', pick:19,
-    stat:'13.6 PPG, 6.5 RPG. Career highs in everything. ACC Most Improved Player. The 24th Notre Dame player drafted to the WNBA.' },
-  { id:'shiels', name:'Saffron Shiels',      coach:'intl',    pos:'SF', posGroup:'F', pick:26,
-    stat:'Basketball Australia and Townsville Fire. Toronto coach Sandy Brondello has known her game for years.' },
-  { id:'pitarch',name:'I. Pitarch-Granel',   coach:'intl',    pos:'SF', posGroup:'F', pick:27,
-    stat:'French club basketball system. One of two Phoenix picks from outside American programs tonight.' },
-  { id:'nivar',  name:'Indya Nivar',         coach:'banghart',pos:'SG', posGroup:'F', pick:28,
-    stat:'Named to the Naismith Defensive Player of the Year watchlist. Stanford transfer to UNC. Three seasons later, a pro.' },
-  { id:'barker', name:'Janiah Barker',       coach:'caldwell',pos:'PF', posGroup:'F', pick:29,
-    stat:'14.3 PPG, 6.6 RPG, career high 46.6% FG in her only Tennessee season. One year. Career highs in everything.' },
-  { id:'spear',  name:'Zee Spearman',        coach:'caldwell',pos:'PF', posGroup:'F', pick:31,
-    stat:'10.2 PPG, 5.8 RPG, 1.3 BPG. Led Tennessee in offensive rebounds. USA Basketball 2025 FIBA 3x3 Nations League. One of two Lady Vols drafted tonight.' },
-  { id:'hass',   name:'Amelia Hassett',      coach:'brooks',  pos:'SF', posGroup:'F', pick:35,
-    stat:'99 three-pointers. Kentucky single-season record. Started every game over two seasons under Brooks (67 starts).' },
-  { id:'tanaka', name:'Kokoro Tanaka',       coach:'intl',    pos:'SF', posGroup:'F', pick:38,
-    stat:'Japanese national basketball system (JBA). The WNBA reach just hit the Pacific.' },
-  { id:'timmons',name:'Jessica Timmons',     coach:'intl',    pos:'SG', posGroup:'F', pick:40,
-    stat:'16.3 PPG, All-SEC at Alabama after transferring from NC State. Found her game in Tuscaloosa.' },
-  { id:'ran',    name:'Kejia Ran',           coach:'intl',    pos:'SG', posGroup:'F', pick:43,
-    stat:'Chinese Basketball Association Women League (WCBA). The Dream close their class with a global reach pick.' },
-  { id:'lwhite', name:'Lani White',          coach:'intl',    pos:'SG', posGroup:'F', pick:45,
-    stat:'15.9 PPG, 4.7 RPG in her senior year. Hit 7-of-7 threes in a single game. Last pick of the 2026 draft. Someone believed in her first.' },
+    stat:'Big Ten Sixth Player of the Year. 9.0 PPG, 5.6 RPG off the bench. Represented Serbia at two Olympics before her senior year.',
+    staffLabel:'Key Staff',
+    staffName:'Tony Newnan',
+    staffRole:'Associate Head Coach',
+    staffNote:'Described as "a master in the international recruiting game." Dugalić is an Olympian from Serbia and the international post product his eye found.' },
 
-  // PERIMETER
+  { id:'mcmahon',name:'Cotie McMahon',       coach:'yo',      pos:'SF', posGroup:'F', pick:11,
+    stat:'703 points in her one Ole Miss season. 4th most in program history for a single year. 19.5 PPG.',
+    staffLabel:'Key Staff',
+    staffName:'Empress Davenport',
+    staffRole:'Associate Coach',
+    staffNote:'Coached McMahon\u2019s entire senior season at Ole Miss (19.5 PPG, SEC Newcomer of Year). Left for the Dallas Wings staff the following month. The coach tree reached the pro level.' },
+
+  { id:'angloma',name:'Nell Angloma',        coach:'intl',    pos:'SF', posGroup:'F', pick:12,
+    stat:'Lattes Montpellier built a WNBA first round prospect before American media caught up. No NCAA. All world.',
+    staffLabel:'Development Path',
+    staffName:'Lattes Montpellier (LFB)',
+    staffRole:'No NCAA Program',
+    staffNote:"France's premier professional club developed her before the American market caught up. LFB is where French pros are built." },
+
+  { id:'suarez', name:'Marta Suárez',        coach:'campbell',pos:'SF', posGroup:'F', pick:16,
+    stat:'17.1 PPG, 7.4 RPG in her one TCU season. Set the Big 12 single-season record for made threes by a post player (84). Six-year college journey.',
+    staffLabel:'Key Staff',
+    staffName:'Xavier Lopez',
+    staffRole:'Associate Head Coach',
+    staffNote:'The best international recruiter in women\u2019s basketball. His pipeline brought Suárez from Spain to Fort Worth and produced three international picks tonight.' },
+
+  { id:'prosper',name:'C. Prosper',          coach:'ivey',    pos:'SF', posGroup:'F', pick:19,
+    stat:'13.6 PPG, 6.5 RPG. Career highs in everything. ACC Most Improved Player. The 24th Notre Dame player drafted to the WNBA.',
+    staffLabel:'Developer',
+    staffName:'Niele Ivey',
+    staffRole:'Head Coach',
+    staffNote:'Prosper praised Ivey directly: "She met me with such grace, not trying to diminish me." Four years together. Top-16 recruit who became the 24th Notre Dame player drafted.' },
+
+  { id:'shiels', name:'Saffron Shiels',      coach:'intl',    pos:'SF', posGroup:'F', pick:26,
+    stat:'Basketball Australia and Townsville Fire. Toronto coach Sandy Brondello has known her game for years.',
+    staffLabel:'Development Path',
+    staffName:'Townsville Fire / Basketball Australia',
+    staffRole:'No NCAA Program',
+    staffNote:'WNBL club and Australian national federation. Sandy Brondello had known her game for years from the Australian circuit before coaching her in Toronto.' },
+
+  { id:'pitarch',name:'I. Pitarch-Granel',   coach:'intl',    pos:'SF', posGroup:'F', pick:27,
+    stat:'French club basketball system. One of two Phoenix picks from outside American programs tonight.',
+    staffLabel:'Development Path',
+    staffName:'French Basketball Federation (FFBB)',
+    staffRole:'No NCAA Program',
+    staffNote:'French professional club development pipeline. One of two Phoenix international selections on draft night.' },
+
+  { id:'nivar',  name:'Indya Nivar',         coach:'banghart',pos:'SG', posGroup:'F', pick:28,
+    stat:'Named to the Naismith Defensive Player of the Year watchlist. Stanford transfer to UNC. Three seasons later, a pro.',
+    staffLabel:'Developer',
+    staffName:'Courtney Banghart',
+    staffRole:'Head Coach',
+    staffNote:'Stanford transfer developed under Banghart for three seasons. Naismith Defensive POY candidate. The first Tar Heel ever drafted under Banghart.' },
+
+  { id:'barker', name:'Janiah Barker',       coach:'caldwell',pos:'PF', posGroup:'F', pick:29,
+    stat:'14.3 PPG, 6.6 RPG, career high 46.6% FG in her only Tennessee season. One year. Career highs in everything.',
+    staffLabel:'Key Staff',
+    staffName:'Jenna Burdette',
+    staffRole:'Associate Coach',
+    staffNote:'Came to Tennessee from Marshall with Caldwell. Was instrumental in the portal class that brought Barker to Knoxville for a career-defining single season.' },
+
+  { id:'spear',  name:'Zee Spearman',        coach:'caldwell',pos:'PF', posGroup:'F', pick:31,
+    stat:'10.2 PPG, 5.8 RPG, 1.3 BPG. Led Tennessee in offensive rebounds. USA Basketball 2025 FIBA 3x3 Nations League. One of two Lady Vols drafted tonight.',
+    staffLabel:'Key Staff',
+    staffName:'Jenna Burdette',
+    staffRole:'Associate Coach',
+    staffNote:'Assembled the portal class that brought Spearman to Tennessee. Spearman went on to represent USA Basketball at FIBA 3x3 Nations League gold.' },
+
+  { id:'hass',   name:'Amelia Hassett',      coach:'brooks',  pos:'SF', posGroup:'F', pick:35,
+    stat:'99 three-pointers. Kentucky single-season record. Started every game over two seasons under Brooks (67 starts).',
+    staffLabel:'Developer',
+    staffName:'Kenny Brooks',
+    staffRole:'Head Coach',
+    staffNote:'Transferred from Virginia Tech where she played under Brooks. He recruited her again to Kentucky. She set the program single-season three-point record (99) under him.' },
+
+  { id:'tanaka', name:'Kokoro Tanaka',       coach:'intl',    pos:'SF', posGroup:'F', pick:38,
+    stat:'Japanese national basketball system (JBA). The WNBA reach just hit the Pacific.',
+    staffLabel:'Development Path',
+    staffName:'Japan Basketball Association (JBA)',
+    staffRole:'No NCAA Program',
+    staffNote:'Japanese national basketball system and domestic league. The JBA pipeline reached the WNBA draft for the first time in the 2026 class.' },
+
+  { id:'timmons',name:'Jessica Timmons',     coach:'alabama', pos:'SG', posGroup:'F', pick:40,
+    stat:'16.3 PPG, All-SEC at Alabama after transferring from NC State. Found her game in Tuscaloosa.',
+    staffLabel:'Developer',
+    staffName:'Alabama WBB Staff',
+    staffRole:'Head Coach Staff',
+    staffNote:'16.3 PPG and All-SEC after transferring from NC State. The Alabama system gave a player room to find herself and the result was a WNBA draft pick.' },
+
+  { id:'ran',    name:'Kejia Ran',           coach:'intl',    pos:'SG', posGroup:'F', pick:43,
+    stat:'Chinese Basketball Association Women League (WCBA). The Dream close their class with a global reach pick.',
+    staffLabel:'Development Path',
+    staffName:'WCBA / Chinese Basketball Association',
+    staffRole:'No NCAA Program',
+    staffNote:'Chinese national basketball system and professional domestic league. Atlanta Dream global reach selection.' },
+
+  { id:'lwhite', name:'Lani White',          coach:'utah',    pos:'SG', posGroup:'F', pick:45,
+    stat:'15.9 PPG, 4.7 RPG in her senior year. Hit 7-of-7 threes in a single game. Last pick of the 2026 draft. Someone believed in her first.',
+    staffLabel:'Developer',
+    staffName:'Lynne Roberts',
+    staffRole:'Head Coach',
+    staffNote:'Roberts built the Utah system that gave White the freedom to show the full range. 15.9 PPG and 7-of-7 threes in a single game. Last pick of the 2026 draft.' },
+
+  // ── PERIMETER ──────────────────────────────────────────────────────────
   { id:'fudd',   name:'Azzi Fudd',           coach:'auriemma',pos:'SG', posGroup:'G', pick:1,
-    stat:'117 made threes at 44.7% for the season. Led the nation. Three knee surgeries. Still got here.' },
+    stat:'117 made threes at 44.7% for the season. Led the nation. Three knee surgeries. Still got here.',
+    staffLabel:'Key Staff',
+    staffName:'Morgan Valley',
+    staffRole:'Assistant Coach',
+    staffNote:'UConn guard 1999-2003, three national championships as a player. The guard who became a coach who helped build the guard who led the nation in threes.' },
+
   { id:'miles',  name:'Olivia Miles',         coach:'campbell',pos:'PG', posGroup:'G', pick:2,
-    stat:'Active D1 leader in career assists (654) and assists per game (6.5). The most creative passer in this class.' },
-  { id:'rice',   name:'Kiki Rice',            coach:'close',   pos:'PG', posGroup:'G', pick:6,
-    stat:'2.55 assist-to-turnover ratio. 99th percentile in D1. 143 career games. She protects the ball like a professional.' },
-  { id:'martin', name:'I. Martin Carrion',    coach:'intl',    pos:'G',  posGroup:'G', pick:7,
-    stat:'No NCAA stats. No American college system. Built by the Spanish national federation. Not an invitee. Didn\'t need to be.' },
-  { id:'flaujae',name:"Flau'Jae Johnson",    coach:'mulkey',  pos:'SG', posGroup:'G', pick:8,
-    stat:'2,000 career points at LSU. Among those who outscored her in Tiger history: Seimone Augustus. Sylvia Fowles. Both WNBA stars.' },
-  { id:'rjohn',  name:'Raven Johnson',        coach:'staley',  pos:'G',  posGroup:'G', pick:10,
-    stat:'128-7 record with her on the floor. 94.2% win rate. Three Final Fours. The numbers tell the story.' },
-  { id:'mair',   name:'Taina Mair',           coach:'lawson',  pos:'G',  posGroup:'G', pick:14,
-    stat:'11.4 PPG, 5.5 APG, 1.9 SPG. 2026 ACC Tournament MVP. 1,000 career points and 500 career assists at Duke.' },
-  { id:'kneep',  name:'Gianna Kneepkens',    coach:'close',   pos:'SG', posGroup:'G', pick:15,
-    stat:'50-40-90 season: 51.8% FG, 44.2% from three, 95.2% FT. One of the two best shooters in this draft class.' },
-  { id:'legw',   name:'C. Leger-Walker',      coach:'close',   pos:'PG', posGroup:'G', pick:18,
-    stat:'Close called her like having another coach on the court. Sat out a full season rehabbing an ACL. Came back. Won a national title.' },
-  { id:'latson', name:"Ta'Niya Latson",       coach:'staley',  pos:'SG', posGroup:'G', pick:20,
-    stat:'25.2 PPG at FSU the year before. National scoring leader. Broke the ACC freshman scoring record. Two schools, one elite career.' },
-  { id:'ajack',  name:'Ashlon Jackson',       coach:'lawson',  pos:'SG', posGroup:'G', pick:23,
-    stat:'2026 ACC Tournament MVP. Duke beat three teams they had lost to in the regular season to win the conference title.' },
-  { id:'gray',   name:'Chance Gray',          coach:'mcguff',  pos:'G',  posGroup:'G', pick:24,
-    stat:'14.7 PPG, 85 made threes at 40.5% from three. A four year journey across two schools, ending in the WNBA.' },
-  { id:'pissott',name:'Justine Pissott',      coach:'ralph',   pos:'SG', posGroup:'G', pick:25,
-    stat:'42.2% from three on 225 attempts. The best shooter in the country per Shea Ralph. First Vanderbilt player drafted since 2014.' },
+    stat:'Active D1 leader in career assists (654) and assists per game (6.5). The most creative passer in this class.',
+    staffLabel:'Developer',
+    staffName:'Mark Campbell',
+    staffRole:'Head Coach',
+    staffNote:"Campbell\u2019s signature: three consecutive conference POY point guards. Miles transferred specifically from Notre Dame to play for him. She averaged 19.4 PPG, 6.6 APG at TCU." },
+
   { id:'jaquez', name:'Gabriela Jaquez',      coach:'close',   pos:'SG', posGroup:'G', pick:5,
-    stat:'21 points, 10 rebounds, 5 assists in the national championship game. She did not stop when the job was halfway done.' },
+    stat:'21 points, 10 rebounds, 5 assists in the national championship game. She did not stop when the job was halfway done.',
+    staffLabel:'Key Staff',
+    staffName:'Tony Newnan',
+    staffRole:'Associate Head Coach',
+    staffNote:'Jaquez said of Newnan directly: "His knowledge for the game has truly helped me grow as a basketball player." National title game: 21 pts, 10 reb, 5 ast.' },
+
+  { id:'rice',   name:'Kiki Rice',            coach:'close',   pos:'PG', posGroup:'G', pick:6,
+    stat:'2.55 assist-to-turnover ratio. 99th percentile in D1. 143 career games. She protects the ball like a professional.',
+    staffLabel:'Key Staff',
+    staffName:'Michaela Onyenwere',
+    staffRole:'Assistant Coach',
+    staffNote:"2021 WNBA Rookie of Year developing the next generation of UCLA guards. Rice's 2.55 AST/TO ratio reflects what it looks like when a pro teaches a pro-to-be." },
+
+  { id:'martin', name:'I. Martin Carrion',    coach:'intl',    pos:'G',  posGroup:'G', pick:7,
+    stat:"No NCAA stats. No American college system. Built by the Spanish national federation. Not an invitee. Didn't need to be.",
+    staffLabel:'Development Path',
+    staffName:'Spanish Basketball Federation (FEB)',
+    staffRole:'No NCAA Program',
+    staffNote:'Spanish national basketball system. No American college career required to reach Pick No. 7.' },
+
+  { id:'flaujae',name:"Flau'Jae Johnson",    coach:'mulkey',  pos:'SG', posGroup:'G', pick:8,
+    stat:'2,000 career points at LSU. Among those who outscored her in Tiger history: Seimone Augustus. Sylvia Fowles. Both WNBA stars.',
+    staffLabel:'Key Staff',
+    staffName:'Seimone Augustus',
+    staffRole:'Assistant Coach',
+    staffNote:"First LSU female athlete with a statue, Women's Basketball Hall of Famer. She played the same position at the same program. Flau'Jae had a blueprint no one else in this class had." },
+
+  { id:'rjohn',  name:'Raven Johnson',        coach:'staley',  pos:'G',  posGroup:'G', pick:10,
+    stat:'128-7 record with her on the floor. 94.2% win rate. Three Final Fours. The numbers tell the story.',
+    staffLabel:'Key Staff',
+    staffName:'Khadijah Sessions',
+    staffRole:'Assistant Coach',
+    staffNote:'Former SC point guard, 2019 FIBA AmeriCup gold. Documented: "For Raven Johnson, it\u2019s passing and how to use her voice that Sessions has helped out the most with."' },
+
+  { id:'mair',   name:'Taina Mair',           coach:'lawson',  pos:'G',  posGroup:'G', pick:14,
+    stat:'11.4 PPG, 5.5 APG, 1.9 SPG. 2026 ACC Tournament MVP. 1,000 career points and 500 career assists at Duke.',
+    staffLabel:'Key Staff',
+    staffName:'Karen Lange',
+    staffRole:'Assistant Coach',
+    staffNote:'Former Iowa guard. Duke Chronicle documented she "works primarily with guards." Mair reached 1,000 career points and 500 career assists under her watch.' },
+
+  { id:'kneep',  name:'Gianna Kneepkens',    coach:'close',   pos:'SG', posGroup:'G', pick:15,
+    stat:'50-40-90 season: 51.8% FG, 44.2% from three, 95.2% FT. One of the two best shooters in this draft class.',
+    staffLabel:'Key Staff',
+    staffName:'Michaela Onyenwere',
+    staffRole:'Assistant Coach',
+    staffNote:'2021 WNBA Rookie of Year who shot 44.7% from three in her rookie WNBA season. Kneepkens shot 44.2%. The standard was built from the inside out.' },
+
+  { id:'legw',   name:'C. Leger-Walker',      coach:'close',   pos:'PG', posGroup:'G', pick:18,
+    stat:'Close called her like having another coach on the court. Sat out a full season rehabbing an ACL. Came back. Won a national title.',
+    staffLabel:'Key Staff',
+    staffName:'Michaela Onyenwere',
+    staffRole:'Assistant Coach',
+    staffNote:"Guard building a guard. Close called Leger-Walker like 'having another coach on the court.' Onyenwere is why that reads as the highest compliment." },
+
+  { id:'latson', name:"Ta'Niya Latson",       coach:'staley',  pos:'SG', posGroup:'G', pick:20,
+    stat:'25.2 PPG at FSU the year before. National scoring leader. Broke the ACC freshman scoring record. Two schools, one elite career.',
+    staffLabel:'Key Staff',
+    staffName:'Khadijah Sessions',
+    staffRole:'Assistant Coach',
+    staffNote:'Sessions specifically works with SC guards. Latson transferred in for one season and Sessions shaped her into a first-round pick.' },
+
+  { id:'ajack',  name:'Ashlon Jackson',       coach:'lawson',  pos:'SG', posGroup:'G', pick:23,
+    stat:'2026 ACC Tournament MVP. Duke beat three teams they had lost to in the regular season to win the conference title.',
+    staffLabel:'Key Staff',
+    staffName:'Karen Lange',
+    staffRole:'Assistant Coach',
+    staffNote:'Documented guard developer at Duke. Jackson earned ACC Tournament MVP the same year Lange\u2019s guard corps won the conference title.' },
+
+  { id:'gray',   name:'Chance Gray',          coach:'mcguff',  pos:'G',  posGroup:'G', pick:24,
+    stat:'14.7 PPG, 85 made threes at 40.5% from three. A four year journey across two schools, ending in the WNBA.',
+    staffLabel:'Key Staff',
+    staffName:'Katie Smith',
+    staffRole:'Assistant Coach',
+    staffNote:"Basketball Hall of Fame, WNBA legend, former Ohio State player. McGuff hired her to develop guards. Gray said of McGuff: 'He makes you play a lot harder and grittier.'" },
+
+  { id:'pissott',name:'Justine Pissott',      coach:'ralph',   pos:'SG', posGroup:'G', pick:25,
+    stat:'42.2% from three on 225 attempts. The best shooter in the country per Shea Ralph. First Vanderbilt player drafted since 2014.',
+    staffLabel:'Key Staff',
+    staffName:'Kevin DeMille',
+    staffRole:'Assistant Coach',
+    staffNote:"Recruited Pissott from age 13. When she entered the portal from Tennessee, DeMille called immediately. Her dad told her: 'Just do a favor for him.'" },
+
   { id:'morgan', name:'Tonie Morgan',         coach:'brooks',  pos:'PG', posGroup:'G', pick:32,
-    stat:'286 assists. That is the Kentucky single-season program assist record. Set it in her only season as a Wildcat.' },
+    stat:'286 assists. That is the Kentucky single-season program assist record. Set it in her only season as a Wildcat.',
+    staffLabel:'Developer',
+    staffName:'Kenny Brooks',
+    staffRole:'Head Coach',
+    staffNote:"Set the Kentucky single-season assist record (286) in her only Wildcat season. Brooks called Georgia Amoore his 'mini-me' as his PG prototype. Morgan followed that blueprint." },
+
   { id:'harmon', name:'Rori Harmon',          coach:'schaefer',pos:'PG', posGroup:'G', pick:34,
-    stat:'Only player in NCAA history with 1,500+ points, 900+ assists, 600+ rebounds and 350+ steals. That combination has never been done. By anyone.' },
-  { id:'dunn',   name:'Charlise Dunn',        coach:'intl',    pos:'SG', posGroup:'G', pick:36,
-    stat:'15.3 PPG, 7.4 RPG. A-10 First Team. From Davidson. Mid major to WNBA. 1,134 career points for the Wildcats.' },
+    stat:'Only player in NCAA history with 1,500+ points, 900+ assists, 600+ rebounds and 350+ steals. That combination has never been done. By anyone.',
+    staffLabel:'Developer',
+    staffName:'Vic Schaefer',
+    staffRole:'Head Coach',
+    staffNote:'Recruited her as a freshman, built Texas\u2019s entire identity around her point guard play. She left as the only player in NCAA history with those four combined stat milestones.' },
+
+  { id:'dunn',   name:'Charlise Dunn',        coach:'davidson',pos:'SG', posGroup:'G', pick:36,
+    stat:'15.3 PPG, 7.4 RPG. A-10 First Team. From Davidson. Mid major to WNBA. 1,134 career points for the Wildcats.',
+    staffLabel:'Developer',
+    staffName:'Davidson WBB Staff',
+    staffRole:'Head Coach Staff',
+    staffNote:'A-10 mid-major program that turned Charlise Dunn into a 1,134-career-point scorer. The first WNBA pick in Davidson program history. The system worked.' },
+
   { id:'bigby',  name:'Taylor Bigby',         coach:'campbell',pos:'SG', posGroup:'G', pick:37,
-    stat:'8.2 PPG with 65 made threes at TCU. Best season of her career. Third pick of the night from the same program.' },
+    stat:'8.2 PPG with 65 made threes at TCU. Best season of her career. Third pick of the night from the same program.',
+    staffLabel:'Key Staff',
+    staffName:'Minyon Moore',
+    staffRole:'Assistant Coach',
+    staffNote:'Three-time All-Pac-12 at UCLA before coaching guards at TCU. Third pick of the night from the same program is a staff result, not a coincidence.' },
 ];
 
-// ── TOOLTIP
-const tip         = document.getElementById('tip');
-const tipHC       = document.getElementById('tip-hc');
-const tipSchool   = document.getElementById('tip-school');
-const tipContext  = document.getElementById('tip-context');
-const tipStaff    = document.getElementById('tip-staff');
-const tipName     = document.getElementById('tip-name');
-const tipMeta     = document.getElementById('tip-meta');
-const tipPov      = document.getElementById('tip-pov');
-let tipTimer      = null;
+// ── TOOLTIP ──────────────────────────────────────────────────────────────────
+const tip            = document.getElementById('tip');
+const tipHC          = document.getElementById('tip-hc');
+const tipSchool      = document.getElementById('tip-school');
+const tipContext     = document.getElementById('tip-context');
+const tipStaffLabel  = document.getElementById('tip-staff-label');
+const tipStaffName   = document.getElementById('tip-staff-name');
+const tipStaffRole   = document.getElementById('tip-staff-role');
+const tipStaffNote   = document.getElementById('tip-staff-note');
+const tipName        = document.getElementById('tip-name');
+const tipMeta        = document.getElementById('tip-meta');
+const tipPov         = document.getElementById('tip-pov');
+let tipTimer         = null;
 
 function showTip(p, coach, x, y) {
-  tipHC.textContent      = `HC: ${coach.name}`;
-  tipHC.style.color      = coach.color;
-  tipSchool.textContent  = `School: ${coach.program}`;
-  tipSchool.style.color  = coach.color;
-  tipContext.textContent = coach.pipelineStat || '';
-  tipContext.style.color = coach.color;
-  tipStaff.textContent   = coach.staff || '';
-  tipName.textContent    = p.name;
-  tipMeta.textContent    = `Pick ${p.pick} · ${p.pos}`;
-  tipPov.textContent     = p.stat;
-  const lx = Math.min(x + 16, window.innerWidth  - 276);
-  const ty = Math.min(y - 10, window.innerHeight - 260);
+  tipHC.textContent         = `HC: ${coach.name}`;
+  tipHC.style.color         = coach.color;
+  tipSchool.textContent     = `School: ${coach.program}`;
+  tipSchool.style.color     = coach.color;
+  tipContext.textContent    = coach.pipelineStat || '';
+  tipContext.style.color    = coach.color;
+  tipStaffLabel.textContent = p.staffLabel  || '';
+  tipStaffName.textContent  = p.staffName   || '';
+  tipStaffRole.textContent  = p.staffRole   || '';
+  tipStaffNote.textContent  = p.staffNote   || '';
+  tipName.textContent       = p.name;
+  tipMeta.textContent       = `Pick ${p.pick} · ${p.pos}`;
+  tipPov.textContent        = p.stat;
+  const lx = Math.min(x + 16, window.innerWidth  - 296);
+  const ty = Math.min(y - 10, window.innerHeight - 290);
   tip.style.left    = lx + 'px';
   tip.style.top     = Math.max(ty, 8) + 'px';
   tip.style.opacity = '1';
@@ -642,7 +895,7 @@ function hideTip(immediate) {
 document.addEventListener('click',      e => { if (!e.target.closest('.pcard')) hideTip(true); });
 document.addEventListener('touchstart', e => { if (!e.target.closest('.pcard')) hideTip(true); }, { passive: true });
 
-// ── BUILD ZONES
+// ── BUILD ZONES ───────────────────────────────────────────────────────────────
 const ZONES = [
   { id:'C', tag:'Paint',     sub:'Centers + Post Forwards' },
   { id:'F', tag:'Wing',      sub:'Forwards + Wings'        },
@@ -709,7 +962,6 @@ ZONES.forEach(zone => {
     coachLine.textContent = coach.id === 'intl' ? 'International' : coach.program;
     card.appendChild(coachLine);
 
-    // Option 5: stat
     const statEl = document.createElement('div');
     statEl.className = 'pcard-stat';
     statEl.textContent = p.stat;
@@ -729,7 +981,7 @@ ZONES.forEach(zone => {
         hideTip(true); isTipOpen = false;
       } else {
         showTip(p, coach,
-          Math.min(t.clientX, window.innerWidth - 276),
+          Math.min(t.clientX, window.innerWidth - 296),
           Math.max(t.clientY - 140, 10)
         );
         isTipOpen = true;
@@ -745,7 +997,7 @@ ZONES.forEach(zone => {
   zonesEl.appendChild(section);
 });
 
-// ── FILTERS
+// ── FILTERS ────────────────────────────────────────────────────────────────
 let activePos = 'all', activeSchool = 'all';
 
 function applyFilters() {
