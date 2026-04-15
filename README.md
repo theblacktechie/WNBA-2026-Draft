@@ -49,7 +49,7 @@ Every player's tooltip is unique. The staff block at the top is built from docum
 | **School: [Program]** | The program, in school color |
 | **[Pipeline Context]** | The coaching stat that defines this pick, in school color |
 
-**Staff block - player-specific (orange label, then 3 lines):**
+**Staff block — player-specific (orange label, then 3 lines):**
 
 | Label | When It Appears |
 |-------|----------------|
@@ -146,7 +146,7 @@ Every player's tooltip is unique. The staff block at the top is built from docum
 | Dawn Staley | South Carolina | 21 WNBA picks, 11 first rounders, 2 No. 1 overalls |
 | Cori Close | UCLA | 6 players drafted in one night, all-time single-draft record |
 | Kim Mulkey | LSU | 26 career WNBA picks, 19 at Baylor, 7 at LSU, Hall of Fame |
-| Mark Campbell | TCU | 5 WNBA first round picks in his career |
+| Mark Campbell | TCU | 15 career WNBA picks, 3 from TCU alone tonight |
 | Yolett McPhee-McCuin | Ole Miss | 5 career WNBA picks, 2 from the same team on the same night |
 | Kenny Brooks | Kentucky | 4 picks in year two, 2025 Sporting News National Coach of Year |
 | Kara Lawson | Duke | First 2 WNBA picks of the Kara Era, USA Basketball HC |
@@ -158,6 +158,9 @@ Every player's tooltip is unique. The staff block at the top is built from docum
 | Shea Ralph | Vanderbilt | Pissott is first WNBA pick of the Ralph era, 7x national champion |
 | Niele Ivey | Notre Dame | Prosper is the 24th Notre Dame player ever drafted |
 | Kevin McGuff | Ohio State | 4 straight years sending players to the WNBA |
+| Gayle Fulks | Davidson | First WNBA pick in Davidson program history |
+| Gavin Petersen | Utah | Utah Utes produced the last pick of the 2026 WNBA Draft |
+| Kristy Curry | Alabama | Developed an NC State transfer into an All-SEC WNBA pick |
 | International | No NCAA | No college system, built by global clubs and national federations |
 
 ---
@@ -178,9 +181,9 @@ Coach Yo (Yolett McPhee-McCuin) produced 5 total WNBA picks, including 2 in the 
 
 ## The Story
 
-**Empress Davenport** served as associate coach at Ole Miss during the 2025–26 season, coaching Cotie McMahon through her entire senior year (19.5 PPG, SEC Newcomer of the Year). On March 27, 2026, Davenport joined the Dallas Wings coaching staff. Dallas held Pick No. 1 on draft night.
+**Yolett McPhee-McCuin** recruited Cotie McMahon as the top forward in the transfer portal and developed her into a first-round pick in one season — 19.5 PPG, 703 points, SEC Newcomer of the Year. Coach Yo saw what Cotie could become before anyone else offered her that stage.
 
-She didn't just develop Cotie McMahon. She went to work for the team that could draft her.
+**Empress Davenport** served as associate coach at Ole Miss during the 2025-26 season, responsible for the guard group. On March 27, 2026, Davenport joined the Dallas Wings coaching staff — the same organization that held Pick No. 1 on draft night.
 
 The coach tree doesn't end at graduation.
 
