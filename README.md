@@ -39,7 +39,7 @@ Live at **[theblacktechie.github.io/wnba-draft-coach-tree](https://theblacktechi
 
 ## The Tooltip: Player-Specific Developers
 
-Every player's tooltip is unique. The staff block at the top is built from documented research into each program's coaching roles and player relationships — no two players from the same program necessarily get the same developer.
+Every player's tooltip is unique. The staff block is built from documented research into each program's coaching roles and player relationships. No two players from the same program necessarily have the same developer — not even two players at the same position.
 
 **Coach block (school color):**
 
@@ -53,8 +53,8 @@ Every player's tooltip is unique. The staff block at the top is built from docum
 
 | Label | When It Appears |
 |-------|----------------|
-| **Key Staff** | A named staff member had direct documented impact on this specific player |
-| **Developer** | The head coach personally is the primary developer for this specific player |
+| **Key Staff** | A named assistant or staff member had direct documented impact on this specific player |
+| **Developer** | The head coach is the documented primary developer for this specific player |
 | **Development Path** | International players, named by their specific club or national federation |
 
 | Line | What It Shows |
@@ -71,6 +71,14 @@ Every player's tooltip is unique. The staff block at the top is built from docum
 | [Player Name] | Large, dark ink |
 | Pick # · Position | Muted caps |
 | [Defining Stat] | The stat that proves the coaching worked |
+
+**Final breakdown — 45 players:**
+
+| Label | Count | Examples |
+|-------|-------|---------|
+| Key Staff | 19 | Betts/Newnan, Johnson/Sessions, Pissott/DeMille, Key/Hicks, Obi/Hicks |
+| Developer | 14 | Harmon/Schaefer, Miles/Campbell, Prosper/Ivey, McMahon/Coach Yo, VanSlooten/Fralick |
+| Development Path | 12 | All international players, named by club or national federation |
 
 ---
 
@@ -204,7 +212,7 @@ The coach tree doesn't end at graduation.
 - SVG basketball court drawn from scratch
 - Inter font via Google Fonts
 - School hex codes sourced from official athletics departments
-- Staff data verified from program athletics sites, April 2026
+- Staff data verified from program athletics sites and documented sources, April 2026. Each assignment reflects the most specific documented coaching relationship available — Key Staff entries require a named individual with a documented direct relationship to that specific player; Developer entries are used when the head coach is the most accurately attributed developer and no specific assistant is documented for that player's position group.
 - All 45 picks confirmed from official WNBA draft results, April 13, 2026
 
 ---
