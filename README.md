@@ -49,7 +49,7 @@ Every player's tooltip is unique. The staff block at the top is built from docum
 | **School: [Program]** | The program, in school color |
 | **[Pipeline Context]** | The coaching stat that defines this pick, in school color |
 
-**Staff block — player-specific (orange label, then 3 lines):**
+**Staff block - player-specific (orange label, then 3 lines):**
 
 | Label | When It Appears |
 |-------|----------------|
